@@ -10,9 +10,9 @@ export default class MultilingualPlugin extends Plugin {
 
 		// Action in title right click menu to translate of the title.
 		this.registerEvent(
-			this.app.workspace.on('file-menu', (menu: Menu, file: TFile, source: string) => {
-				// only adds the menu action to action to the page title rigtht click menu
-				if (source == 'title' && file.extension == 'md') {
+			this.app.workspace.on('editor-menu', (menu: Menu, editor: Editor, markdownView: MarkdownView) => {
+				if (markdownView.file) {
+					let file = markdownView.file
 					menu.addItem((item) => {
 						item
 						.setTitle("Add title translation to aliases")
@@ -21,9 +21,9 @@ export default class MultilingualPlugin extends Plugin {
 							this.translateTitle(file);
 						});
 					});
-			  }
+				}
 			})
-		  );
+		);
 
 		// Editor command that triggers translation of the title of the current file.
 		this.addCommand({
