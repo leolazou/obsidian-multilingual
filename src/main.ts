@@ -1,4 +1,4 @@
-import { Plugin, Editor, MarkdownView, TFile, Notice, Menu } from 'obsidian';
+import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, FileView } from 'obsidian';
 import { DEFAULT_SETTINGS, MultilingualSettings, MultilingualSettingTab } from './settings'
 import * as texts from  './texts.json';
 
@@ -8,11 +8,20 @@ export default class MultilingualPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
+		// Automatically translates title on title update if the setting is enabled.
+		this.registerEvent(
+			this.app.vault.on('rename', (file: TFile, oldPath: string) => {
+				if (this.settings.autoTranslate) {
+					this.translateTitle(file);
+				}
+			})
+		)
+
 		// Action in title right click menu to translate of the title.
 		this.registerEvent(
-			this.app.workspace.on('editor-menu', (menu: Menu, editor: Editor, markdownView: MarkdownView) => {
-				if (markdownView.file) {
-					let file = markdownView.file
+			this.app.workspace.on('editor-menu', (menu: Menu, editor: Editor, view: MarkdownView) => {
+				if (view.file) {
+					let file = view.file
 					menu.addItem((item) => {
 						item
 						.setTitle("Add title translation to aliases")
@@ -57,7 +66,6 @@ export default class MultilingualPlugin extends Plugin {
 
 	async translateTitle(file: TFile) {
         const title = file.basename;
-		let titles = [title.concat("-0"), title.concat("-1")]
 		this.updateAliases(file, [title])
     }
 

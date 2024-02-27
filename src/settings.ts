@@ -1,13 +1,15 @@
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, PluginSettingTab, Setting, ToggleComponent } from 'obsidian';
 import {default as MultilingualPlugin} from './main'
 
 export interface MultilingualSettings {
 	targetLanguages: string[];
+    autoTranslate: boolean;
     apiKey: string;
 }
 
 export const DEFAULT_SETTINGS: MultilingualSettings = {
     targetLanguages: ['fr', 'de'],
+    autoTranslate: false,
     apiKey: ""
 }
 
@@ -25,7 +27,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
 		containerEl.empty();
 		
 		new Setting(containerEl)
-            .setName('Target Languages')
+            .setName('Target languages')
             .setDesc('Comma-separated list of language codes (e.g., fr, de, cn)')
             .addText(text => text
                 .setPlaceholder('fr, de, cn')
@@ -33,6 +35,16 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .onChange(async (value) => {
                     this.plugin.settings.targetLanguages = value.split(',').map(lang => lang.trim());
                     await this.plugin.saveSettings();
+                }));
+
+        new Setting(containerEl)
+            .setName('Auto translate')
+            .setDesc('Enable to automatically add translations of the note title when you create a new note or change the title of an existing one')
+            .addToggle(toggle => toggle
+                .setValue(this.plugin.settings.autoTranslate)
+                .onChange((value: boolean) => {
+                    this.plugin.settings.autoTranslate = value;
+                    this.plugin.saveSettings();
                 }));
 
         new Setting(containerEl)
