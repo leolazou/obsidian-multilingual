@@ -1,5 +1,6 @@
 {
     "notices": {
+        "TRANSLATIONS_ADDED": "Page title translations added to aliases.",
         "NOT_A_FILE": "Cannot translate the title of nothing, because nothing doesn't have anything, notably no title."
     }
 }

@@ -77,6 +77,7 @@ export default class MultilingualPlugin extends Plugin {
 				aliases = [...new Set(aliases)]; // removes potential duplicates 
 
 				frontmatter.aliases = aliases;
+				new Notice(texts.notices.TRANSLATIONS_ADDED);
 			}
 		})
 	}
