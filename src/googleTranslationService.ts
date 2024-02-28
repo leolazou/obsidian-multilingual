@@ -1,6 +1,7 @@
 import { Notice, request } from "obsidian";
 import { MultilingualSettings } from "./settings";
-import * as texts from "./texts.json" 
+import { decodeHtmlEntities } from "./helpers";
+import * as texts from "./texts.json";
 
 const googleCloudTranslationURL = 'https://translation.googleapis.com/language/translate/v2'
 
@@ -30,7 +31,7 @@ export class GoogleTranslationService {
                 const response = await request({ url: url, method: 'POST' });
                 const translationData = JSON.parse(response);
                 if (translationData.data && translationData.data.translations) {
-                    translations[targetLanguage] = translationData.data.translations[0].translatedText;
+                    translations[targetLanguage] = decodeHtmlEntities(translationData.data.translations[0].translatedText);
                 } else {
                     new Notice(texts.notices.GENERAL_TRANSLATION_ERROR)
                     throw new Error("Unexpected response format from Google Translate");
