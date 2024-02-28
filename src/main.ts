@@ -12,6 +12,15 @@ export default class MultilingualPlugin extends Plugin {
 
 		this.googleTranslationService = new GoogleTranslationService(this.settings)
 		
+		// Automatically translates title when a note is created if the setting is enabled.
+		this.registerEvent (
+			this.app.vault.on('create', (file: TFile) => {
+				if (this.settings.autoTranslate && file.name) {
+					this.translateTitle(file);
+				}
+			})
+		)
+
 		// Automatically translates title on title update if the setting is enabled.
 		this.registerEvent(
 			this.app.vault.on('rename', (file: TFile, oldPath: string) => {
