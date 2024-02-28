@@ -1,13 +1,17 @@
 import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, FileView } from 'obsidian';
 import { DEFAULT_SETTINGS, MultilingualSettings, MultilingualSettingTab } from './settings'
+import { GoogleTranslationService } from './googleTranslationService';
 import * as texts from  './texts.json';
 
 export default class MultilingualPlugin extends Plugin {
 	settings: MultilingualSettings;
+	googleTranslationService: GoogleTranslationService;
 
 	async onload() {
 		await this.loadSettings();
 
+		this.googleTranslationService = new GoogleTranslationService(this.settings)
+		
 		// Automatically translates title on title update if the setting is enabled.
 		this.registerEvent(
 			this.app.vault.on('rename', (file: TFile, oldPath: string) => {
@@ -66,14 +70,17 @@ export default class MultilingualPlugin extends Plugin {
 
 	async translateTitle(file: TFile) {
         const title = file.basename;
-		this.updateAliases(file, [title])
+		const translatedTitles = await this.googleTranslationService.translate(file.basename, this.settings.targetLanguages)
+		if (translatedTitles) {
+			this.addAliases(file, Object.values(translatedTitles))
+		}
     }
 
-	async updateAliases(file: TFile, translations: string[]) {
+	async addAliases(file: TFile, newAliases: string[]) {
 		await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
 			if (typeof(frontmatter) == 'object'){
 				let aliases = frontmatter.aliases || []; // gets current aliases or creates the new list
-				aliases = aliases.concat(translations); // adds new translations
+				aliases = aliases.concat(newAliases); // adds new aliases
 				aliases = [...new Set(aliases)]; // removes potential duplicates 
 
 				frontmatter.aliases = aliases;

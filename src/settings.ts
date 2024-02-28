@@ -28,9 +28,9 @@ export class MultilingualSettingTab extends PluginSettingTab {
 		
 		new Setting(containerEl)
             .setName('Target languages')
-            .setDesc('Comma-separated list of language codes (e.g., fr, de, cn)')
+            .setDesc('Comma-separated list of language codes (e.g.: "fr, de")')
             .addText(text => text
-                .setPlaceholder('fr, de, cn')
+                .setPlaceholder('fr, de, cn, ...')
                 .setValue(this.plugin.settings.targetLanguages.join(', '))
                 .onChange(async (value) => {
                     this.plugin.settings.targetLanguages = value.split(',').map(lang => lang.trim());
@@ -48,13 +48,12 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 }));
 
         new Setting(containerEl)
-            .setName('Google Translate API key')
-            .setDesc('Create a Google Translate API key and paste it here. This is mandatory for the app to work. (The API key will be stored in the Obsidian config files in your Obsidian valut location.)')
+            .setName('Google Translate API key (mandatory)')
+            .setDesc('Create a Google Translate API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)')
             .addText(text => text
-                .setPlaceholder('YOUR_API_KEY')
-                .setValue(this.plugin.settings.targetLanguages.join(', '))
+                .setPlaceholder(this.plugin.settings.apiKey ? "*** *** *** ".concat(this.plugin.settings.apiKey.slice(-4)) :'YOUR_API_KEY')
                 .onChange(async (value) => {
-                    this.plugin.settings.targetLanguages = value.split(',').map(lang => lang.trim());
+                    this.plugin.settings.apiKey = value;
                     await this.plugin.saveSettings();
                 }));
 	}
