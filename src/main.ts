@@ -13,18 +13,20 @@ export default class MultilingualPlugin extends Plugin {
 		this.googleTranslationService = new GoogleTranslationService(this.settings)
 		
 		// Automatically translates title when a note is created if the setting is enabled.
-		this.registerEvent (
-			this.app.vault.on('create', (file: TFile) => {
-				if (this.settings.autoTranslate && file.name) {
-					this.translateTitle(file);
-				}
-			})
-		)
+		this.app.workspace.onLayoutReady(() => {
+			this.registerEvent (
+				this.app.vault.on('create', (file: TFile) => {
+					if (this.settings.autoTranslate && file.name && this.isToBeAutoTranslated(file.basename)) {
+						this.translateTitle(file);
+					}
+				})
+			)
+		})
 
 		// Automatically translates title on title update if the setting is enabled.
 		this.registerEvent(
 			this.app.vault.on('rename', (file: TFile, oldPath: string) => {
-				if (this.settings.autoTranslate) {
+				if (this.settings.autoTranslate && this.isToBeAutoTranslated(file.basename)) {
 					this.translateTitle(file);
 				}
 			})
@@ -75,6 +77,13 @@ export default class MultilingualPlugin extends Plugin {
 
 	onunload() {
 
+	}
+
+	private isToBeAutoTranslated(title: string): boolean {
+		if (/^Untitled(?:\s\d+)?$/.test(title)) { // if default title like "Untitled 3"
+			return false;
+		}
+		return true;
 	}
 
 	async translateTitle(file: TFile) {

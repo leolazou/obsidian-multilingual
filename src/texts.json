@@ -1,6 +1,6 @@
 {
     "notices": {
-        "TRANSLATIONS_ADDED": "Note title translations added to aliases.",
+        "TRANSLATIONS_ADDED": "New title translations added to aliases.",
         "NOT_A_FILE": "Cannot translate the title of nothing, because nothing doesn't have anything, notably no title.",
         "GENERAL_TRANSLATION_ERROR": "Title not translated! Some weird error during translation 🤯",
         "OFFLINE": "Title not translated! You seem to be offline 🏕️",
