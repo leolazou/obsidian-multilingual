@@ -25,6 +25,8 @@ export class MultilingualSettingTab extends PluginSettingTab {
 		const {containerEl} = this;
 
 		containerEl.empty();
+
+        containerEl.createEl('h3', { 'text': 'General settings' })
 		
 		new Setting(containerEl)
             .setName('Target languages')
@@ -46,6 +48,8 @@ export class MultilingualSettingTab extends PluginSettingTab {
                     this.plugin.settings.autoTranslate = value;
                     this.plugin.saveSettings();
                 }));
+
+        containerEl.createEl('h3', { 'text': 'API keys' })
 
         new Setting(containerEl)
             .setName('Google Translate API key (mandatory)')
