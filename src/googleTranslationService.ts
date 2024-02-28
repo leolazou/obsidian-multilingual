@@ -23,22 +23,24 @@ export class GoogleTranslationService {
         }
 
         try {
-            let translations:{ [key: string]: string } = {};
+            let multiLangTranslation:{ [key: string]: string } = {};
 
             for (let targetLanguage of targetLanguages) {
                 url = `${url}&target=${targetLanguage}`;
 
                 const response = await request({ url: url, method: 'POST' });
-                const translationData = JSON.parse(response);
-                if (translationData.data && translationData.data.translations) {
-                    translations[targetLanguage] = decodeHtmlEntities(translationData.data.translations[0].translatedText);
+                const translations = JSON.parse(response).data?.translations;
+                if (translations) {
+                    if (translations[0].detectedSourceLanguage != targetLanguage) {
+                        multiLangTranslation[targetLanguage] = decodeHtmlEntities(translations[0].translatedText)
+                    } // else not adding to the list
                 } else {
                     new Notice(texts.notices.GENERAL_TRANSLATION_ERROR)
                     throw new Error("Unexpected response format from Google Translate");
                 }
             }
 
-            return translations
+            return multiLangTranslation
 
         } catch (error) {
             if (!navigator.onLine) {  // no internet connection
