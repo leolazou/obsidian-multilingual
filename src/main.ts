@@ -2,6 +2,7 @@ import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, moment } from 'obsid
 import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translatorsMap } from './settings'
 import { Translator } from './translator';
 import { error, log } from 'console';
+import { untitledIn } from './l10n/elements';
 import * as defaultStrings from './l10n/en.json';
 
 type StringsFormat = typeof defaultStrings;
@@ -85,7 +86,11 @@ export default class MultilingualPlugin extends Plugin {
 	}
 
 	private isToBeAutoTranslated(title: string): boolean {
-		if (/^Untitled(?:\s\d+)?$/.test(title)) { // if default title like "Untitled 3"
+		if (moment(title, "YYYY-MM-DD", true).isValid()) {
+			// if default YYYY-MM-DD format, do not auto-translate
+			return false
+		} else if ((new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title)) {
+			// if default titlename like "Untitled 3", respecting the locale, do not auto-translate
 			return false;
 		}
 		return true;
