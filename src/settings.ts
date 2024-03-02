@@ -1,7 +1,7 @@
 import { App, PluginSettingTab, Setting, ToggleComponent } from 'obsidian';
 import { default as MultilingualPlugin } from './main'
-import { GoogleTranslator } from './googleTranslator';
-import { DeepLTranslator } from './deeplTranslator';
+import { GoogleTranslator } from './google-translator';
+import { DeepLTranslator } from './deepl-translator';
 
 type TranslatorName = 'Google Translate' | 'DeepL';
 
