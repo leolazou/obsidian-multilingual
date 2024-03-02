@@ -1,10 +1,10 @@
 import { requestUrl } from "obsidian";
-import { TranslationService, TranslationsResult, ErrorType } from "./translationService";
+import { Translator, TranslationsResult, ErrorType } from "./translator";
 import { decodeHtmlEntities } from "./helpers";
 
 const DEEPL_API_URL = 'https://api-free.deepl.com/v2/translate';
 
-export class DeepLService extends TranslationService {
+export class DeepLTranslator extends Translator {
 
     public async translate(text: string, targetLanguages: string[], sourceLanguage?: string): Promise<TranslationsResult> {
         let result: TranslationsResult = {};

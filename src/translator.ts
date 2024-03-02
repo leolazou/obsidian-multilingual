@@ -20,7 +20,7 @@ export interface TranslationsResult {
 	detectedLanguage?: string;  // Detected language of the source text
 }
 
-export interface TranslationService {
+export interface Translator {
     // translate a text into (one or) many languages, optionally specifying a source language
     translate(
         text: string,
@@ -29,7 +29,7 @@ export interface TranslationService {
     ): Promise<TranslationsResult>;
 }
 
-export abstract class TranslationService implements TranslationService {
+export abstract class Translator implements Translator {
     protected settings: MultilingualSettings;
 
     constructor(settings: MultilingualSettings) {

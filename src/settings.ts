@@ -1,26 +1,26 @@
 import { App, PluginSettingTab, Setting, ToggleComponent } from 'obsidian';
 import { default as MultilingualPlugin } from './main'
-import { GoogleTranslationService } from './googleTranslationService';
-import { DeepLService } from './deeplService';
+import { GoogleTranslator } from './googleTranslator';
+import { DeepLTranslator } from './deeplTranslator';
 
-type TranslationServiceName = 'Google Translate' | 'DeepL';
+type TranslatorName = 'Google Translate' | 'DeepL';
 
-export const translationServicesMap: { [key in TranslationServiceName]: any } = {
-    'Google Translate': GoogleTranslationService,
-    'DeepL': DeepLService
+export const translatorsMap: { [key in TranslatorName]: any } = {
+    'Google Translate': GoogleTranslator,
+    'DeepL': DeepLTranslator
 }
 
 export interface MultilingualSettings {
 	targetLanguages: string[];
     autoTranslate: boolean;
-    selectedTranslationService: TranslationServiceName;
-    apiKeys: {[key in TranslationServiceName]: string};
+    translatorName: TranslatorName;
+    apiKeys: {[key in TranslatorName]: string};
 }
 
 export const DEFAULT_SETTINGS: MultilingualSettings = {
     targetLanguages: ['fr', 'de'],
     autoTranslate: false,
-    selectedTranslationService: 'Google Translate',
+    translatorName: 'Google Translate',
     apiKeys: {
         'Google Translate': '',
         'DeepL': ''
@@ -35,16 +35,16 @@ export class MultilingualSettingTab extends PluginSettingTab {
 		this.plugin = plugin;
 	}
 
-    // Updates the api key field in the setting to reflect the chosen service
+    // Updates the api key field in the setting to reflect the chosen translator
     private updateApiKeySetting(apiKeySetting: Setting) {
         apiKeySetting
             .clear()
-            .setName(`${this.plugin.settings.selectedTranslationService} API key (mandatory)`)
-            .setDesc(`Create a ${this.plugin.settings.selectedTranslationService} API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)`)
+            .setName(`${this.plugin.settings.translatorName} API key (mandatory)`)
+            .setDesc(`Create a ${this.plugin.settings.translatorName} API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)`)
             .addText(text => text
-                .setPlaceholder(this.plugin.settings.apiKeys ? "*** *** *** ".concat(this.plugin.settings.apiKeys[this.plugin.settings.selectedTranslationService].slice(-4)) :'YOUR_API_KEY')
+                .setPlaceholder(this.plugin.settings.apiKeys ? "*** *** *** ".concat(this.plugin.settings.apiKeys[this.plugin.settings.translatorName].slice(-4)) :'YOUR_API_KEY')
                 .onChange(async (value) => {
-                    this.plugin.settings.apiKeys[this.plugin.settings.selectedTranslationService] = value;
+                    this.plugin.settings.apiKeys[this.plugin.settings.translatorName] = value;
                     await this.plugin.saveSettings();
                 }));
     }
@@ -85,10 +85,10 @@ export class MultilingualSettingTab extends PluginSettingTab {
             .addDropdown(dropdown => dropdown
                 .addOption('Google Translate', 'Google Translate')
                 .addOption('DeepL', 'DeepL')
-                .setValue(this.plugin.settings.selectedTranslationService)
-                .onChange((value: TranslationServiceName) => {
-                    this.plugin.settings.selectedTranslationService = value;
-                    this.plugin.loadTranslationService();  // changes the service instanciated in the main.ts
+                .setValue(this.plugin.settings.translatorName)
+                .onChange((value: TranslatorName) => {
+                    this.plugin.settings.translatorName = value;
+                    this.plugin.loadTranslator();  // re-instanciates the translator in the main.ts to reflect the change
                     this.updateApiKeySetting(apiKeySetting);
                 })
                 )

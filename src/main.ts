@@ -1,21 +1,21 @@
 import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, FileView } from 'obsidian';
-import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translationServicesMap } from './settings'
-import { TranslationService } from './translationService';
+import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translatorsMap } from './settings'
+import { Translator } from './translator';
 import * as texts from  './texts.json';
 import { error } from 'console';
 
 export default class MultilingualPlugin extends Plugin {
 	settings: MultilingualSettings;
-	translationService: TranslationService;
+	translator: Translator;
 
-	// instanciates a TranslationService, based on the settings
-	public loadTranslationService() {
-		this.translationService = new translationServicesMap[this.settings.selectedTranslationService](this.settings);
+	// instanciates a Translator, based on the settings
+	public loadTranslator() {
+		this.translator = new translatorsMap[this.settings.translatorName](this.settings);
 	}
 
 	async onload() {
 		await this.loadSettings();
-		this.loadTranslationService();
+		this.loadTranslator();
 
 		// Automatically translates title when a note is created if the setting is enabled.
 		this.app.workspace.onLayoutReady(() => {
@@ -92,7 +92,7 @@ export default class MultilingualPlugin extends Plugin {
 	}
 
 	async translateTitle(file: TFile) {
-		const translationsResult = await this.translationService.translate(file.basename, this.settings.targetLanguages);
+		const translationsResult = await this.translator.translate(file.basename, this.settings.targetLanguages);
 
 		if (translationsResult.errorType) {
 			new Notice(texts.notices.translation_errors[translationsResult.errorType]);

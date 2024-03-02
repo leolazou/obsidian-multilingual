@@ -1,10 +1,10 @@
 import { requestUrl } from "obsidian";
-import { TranslationService, TranslationsResult, ErrorType } from "./translationService";
+import { Translator, TranslationsResult, ErrorType } from "./translator";
 import { decodeHtmlEntities } from "./helpers";
 
 const GOOGLE_CLOUD_TRANSLATION_URL = 'https://translation.googleapis.com/language/translate/v2'
 
-export class GoogleTranslationService extends TranslationService {
+export class GoogleTranslator extends Translator {
 
     public async translate(text: string, targetLanguages: string[], sourceLanguage?: string): Promise<TranslationsResult> {
         let result: TranslationsResult = {};
