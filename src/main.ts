@@ -125,7 +125,7 @@ export default class MultilingualPlugin extends Plugin {
 
 	// gets user's locale (Obsidian display language) to adapt some of the plugin's functionality to it
 	private loadLocale() {
-		this.locale = moment.locale().replace(/([a-z]{2})([A-Z]{2})/, '$1-$2');  // xx-XX format (ex: en-GB, zh-CN)
+		this.locale = moment.locale();  // xx-xx format (ex: fr, zh-cn)
 		
 		this.strings = defaultStrings;
 		try {
