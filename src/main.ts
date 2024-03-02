@@ -1,15 +1,20 @@
-import { Plugin, Editor, MarkdownView, TFile, Notice, Menu } from 'obsidian';
+import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, moment } from 'obsidian';
 import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translatorsMap } from './settings'
 import { Translator } from './translator';
-import * as texts from  './texts.json';
-import { error } from 'console';
+import { error, log } from 'console';
+import * as defaultStrings from './l10n/en.json';
+
+type StringsFormat = typeof defaultStrings;
 
 export default class MultilingualPlugin extends Plugin {
 	settings: MultilingualSettings;
+	locale: string;
+	strings: StringsFormat;
 	translator: Translator;
 
 	async onload() {
 		await this.loadSettings();
+		this.loadLocale();
 		this.loadTranslator();
 
 		// Automatically translates title when a note is created if the setting is enabled.
@@ -57,7 +62,7 @@ export default class MultilingualPlugin extends Plugin {
 				if (view.file) {
 					this.translateTitle(view.file)
 				} else {
-					new Notice(texts.notices.errors.NOT_A_FILE)
+					new Notice(this.strings.notices.errors.NOT_A_FILE)
 				}
 			},
 		});
@@ -90,7 +95,7 @@ export default class MultilingualPlugin extends Plugin {
 		const translationsResult = await this.translator.translate(file.basename, this.settings.targetLanguages);
 
 		if (translationsResult.errorType) {
-			new Notice(texts.notices.translation_errors[translationsResult.errorType]);
+			new Notice(this.strings.notices.translation_errors[translationsResult.errorType]);
 			if (translationsResult.error) {
 				console.error("Error during translation :", error);
 			}
@@ -113,9 +118,22 @@ export default class MultilingualPlugin extends Plugin {
 				aliases = [...new Set(aliases)]; // removes potential duplicates 
 
 				frontmatter.aliases = aliases;
-				new Notice(texts.notices.success.TRANSLATIONS_ADDED);
+				new Notice(this.strings.notices.success.TRANSLATIONS_ADDED);
 			}
 		})
+	}
+
+	// gets user's locale (Obsidian display language) to adapt some of the plugin's functionality to it
+	private loadLocale() {
+		this.locale = moment.locale().replace(/([a-z]{2})([A-Z]{2})/, '$1-$2');  // xx-XX format (ex: en-GB, zh-CN)
+		
+		this.strings = defaultStrings;
+		try {
+			this.strings = require(`./l10n/${this.locale}.json`);
+		} catch (error) {
+			// English kept by default if the display language not available for the plugin
+			log(`Multilingual plugin isn't yet translated to ${this.locale} (funny, right?).  English selected by default as display language for the plugin. Unless the error is different: ` + error)
+		}
 	}
 
 	// instanciates a Translator, based on the settings
