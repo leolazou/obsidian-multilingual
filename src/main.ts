@@ -104,11 +104,15 @@ export default class MultilingualPlugin extends Plugin {
 			if (translationsResult.error) {
 				console.error("Error during translation :", error);
 			}
-		} else if (translationsResult.translations) {
-			let translationsToAdd = Object.values(translationsResult.translations)
-				.filter(([key]) => key !== translationsResult.detectedLanguage)
-				.map(variants => variants[0]);
-			
+			return;
+			// maybe later implement another logic where errors on some translations can keep other successful
+		}
+
+		let translationsToAdd = Object.entries(translationsResult.translations || {}) // Check if translations exists
+			.filter(([langCode]) => langCode !== translationsResult.detectedLanguage)
+			.map(([, variants]) => variants[0]); 
+		
+		if (translationsToAdd.length > 0) {
 			this.addAliases(file, translationsToAdd);
 		} else {
 			// no translations added

@@ -36,7 +36,7 @@ export class DeepLTranslator extends Translator {
                     return {errorType: ErrorType.OTHER_ERROR};
                 }
 
-                result.detectedLanguage ??= translations[0].detected_source_language;
+                result.detectedLanguage ??= translations[0].detected_source_language.toLowerCase();
                 (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.text));
             }
 
