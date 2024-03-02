@@ -1,6 +1,5 @@
 import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, FileView } from 'obsidian';
 import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translationServicesMap } from './settings'
-import { GoogleTranslationService } from './googleTranslationService';
 import { TranslationService } from './translationService';
 import * as texts from  './texts.json';
 import { error } from 'console';

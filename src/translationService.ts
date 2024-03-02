@@ -20,17 +20,19 @@ export interface TranslationsResult {
 	detectedLanguage?: string;  // Detected language of the source text
 }
 
-export abstract class TranslationService {
-    protected settings: MultilingualSettings;
-
-    constructor(settings: MultilingualSettings) {
-        this.settings = settings;
-    }
-    
+export interface TranslationService {
     // translate a text into (one or) many languages, optionally specifying a source language
-    public abstract translate(
+    translate(
         text: string,
         targetLanguages: string[],
         sourceLanguage?: string
     ): Promise<TranslationsResult>;
+}
+
+export abstract class TranslationService implements TranslationService {
+    protected settings: MultilingualSettings;
+
+    constructor(settings: MultilingualSettings) {
+        this.settings = settings;
+    }    
 }

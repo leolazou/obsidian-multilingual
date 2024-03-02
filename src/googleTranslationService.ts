@@ -2,7 +2,7 @@ import { requestUrl } from "obsidian";
 import { TranslationService, TranslationsResult, ErrorType } from "./translationService";
 import { decodeHtmlEntities } from "./helpers";
 
-const googleCloudTranslationURL = 'https://translation.googleapis.com/language/translate/v2'
+const GOOGLE_CLOUD_TRANSLATION_URL = 'https://translation.googleapis.com/language/translate/v2'
 
 export class GoogleTranslationService extends TranslationService {
 
@@ -10,7 +10,7 @@ export class GoogleTranslationService extends TranslationService {
         let result: TranslationsResult = {};
 
         let params = new URLSearchParams({
-            key: this.settings.apiKey,
+            key: this.settings.apiKeys['Google Translate'],
             q: text,
             source: sourceLanguage || ''
         })
@@ -19,7 +19,7 @@ export class GoogleTranslationService extends TranslationService {
             for (let targetLanguage of targetLanguages) {
                 params.set('target', targetLanguage);
                 const response = await requestUrl({
-                    url: `${googleCloudTranslationURL}?${params.toString()}`,
+                    url: `${GOOGLE_CLOUD_TRANSLATION_URL}?${params.toString()}`,
                     method: 'POST'
                 })
 
@@ -37,7 +37,7 @@ export class GoogleTranslationService extends TranslationService {
                 }
 
                 result.detectedLanguage ??= translations[0].detectedSourceLanguage;
-                (result.translations ??= {})[targetLanguage] = translations.map((variants: any) => decodeHtmlEntities(variants.translatedText));
+                (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.translatedText));
             }
 
             return result;
