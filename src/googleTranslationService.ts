@@ -9,22 +9,19 @@ export class GoogleTranslationService extends TranslationService {
     public async translate(text: string, targetLanguages: string[], sourceLanguage?: string): Promise<TranslationsResult> {
         let result: TranslationsResult = {};
 
-        let url = `${googleCloudTranslationURL}?${[
-            `key=${this.settings.apiKey}`,
-            `q=${encodeURIComponent(text)}`,
-            `source=${sourceLanguage ? sourceLanguage : ''}`
-        ].join('&')}`
-
-        // if (sourceLanguage) {
-        //     url = `${url}&source=${sourceLanguage}`
-        // }
+        let params = new URLSearchParams({
+            key: this.settings.apiKey,
+            q: text,
+            source: sourceLanguage || ''
+        })
 
         try {
             for (let targetLanguage of targetLanguages) {
+                params.set('target', targetLanguage);
                 const response = await requestUrl({
-                    url: `${url}&target=${targetLanguage}`,  // the only URL parameter that changes with in loop is the target language
+                    url: `${googleCloudTranslationURL}?${params.toString()}`,
                     method: 'POST'
-                });
+                })
 
                 if (response.status !== 200) {
                     return {
