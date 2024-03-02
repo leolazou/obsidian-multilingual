@@ -1,6 +1,4 @@
-import { Notice } from "obsidian";
 import { MultilingualSettings } from "./settings";
-import * as texts from './texts.json'
 
 export enum ErrorType {
     OFFLINE = 'OFFLINE',

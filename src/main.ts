@@ -1,4 +1,4 @@
-import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, FileView } from 'obsidian';
+import { Plugin, Editor, MarkdownView, TFile, Notice, Menu } from 'obsidian';
 import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translatorsMap } from './settings'
 import { Translator } from './translator';
 import * as texts from  './texts.json';
@@ -7,11 +7,6 @@ import { error } from 'console';
 export default class MultilingualPlugin extends Plugin {
 	settings: MultilingualSettings;
 	translator: Translator;
-
-	// instanciates a Translator, based on the settings
-	public loadTranslator() {
-		this.translator = new translatorsMap[this.settings.translatorName](this.settings);
-	}
 
 	async onload() {
 		await this.loadSettings();
@@ -121,6 +116,11 @@ export default class MultilingualPlugin extends Plugin {
 				new Notice(texts.notices.success.TRANSLATIONS_ADDED);
 			}
 		})
+	}
+
+	// instanciates a Translator, based on the settings
+	public loadTranslator() {
+		this.translator = new translatorsMap[this.settings.translatorName](this.settings);
 	}
 
 	async loadSettings() {
