@@ -44,7 +44,7 @@ export default class MultilingualPlugin extends Plugin {
 					let file = view.file
 					menu.addItem((item) => {
 						item
-						.setTitle("Add title translation to aliases")
+						.setTitle(this.strings.menus.EDITOR_MENU_ACTION)
 						.setIcon("languages") // icon from lucide.dev
 						.onClick(() => {
 							this.translateTitle(file);
@@ -57,7 +57,7 @@ export default class MultilingualPlugin extends Plugin {
 		// Editor command that triggers translation of the title of the current file.
 		this.addCommand({
 			id: 'multilingual-editor-translate-title',
-			name: 'Translate page title into aliases',
+			name: this.strings.menus.COMMAND_ACTION,
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				if (view.file) {
 					this.translateTitle(view.file)

@@ -2,6 +2,7 @@ import { App, PluginSettingTab, Setting } from 'obsidian';
 import { default as MultilingualPlugin } from './main'
 import { GoogleTranslator } from './google-translator';
 import { DeepLTranslator } from './deepl-translator';
+import { strFormat } from './helpers';
 
 type TranslatorName = 'Google Translate' | 'DeepL';
 
@@ -35,32 +36,18 @@ export class MultilingualSettingTab extends PluginSettingTab {
 		this.plugin = plugin;
 	}
 
-    // Updates the api key field in the setting to reflect the chosen translator
-    private updateApiKeySetting(apiKeySetting: Setting) {
-        apiKeySetting
-            .clear()
-            .setName(`${this.plugin.settings.translatorName} API key (mandatory)`)
-            .setDesc(`Create a ${this.plugin.settings.translatorName} API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)`)
-            .addText(text => text
-                .setPlaceholder(this.plugin.settings.apiKeys ? "*** *** *** ".concat(this.plugin.settings.apiKeys[this.plugin.settings.translatorName].slice(-4)) :'YOUR_API_KEY')
-                .onChange(async (value) => {
-                    this.plugin.settings.apiKeys[this.plugin.settings.translatorName] = value;
-                    await this.plugin.saveSettings();
-                }));
-    }
-
 	display(): void {
 		const {containerEl} = this;
 
 		containerEl.empty();
 
-        containerEl.createEl('h3', { 'text': 'General settings' })
+        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_GENERAL})
 		
 		new Setting(containerEl)
-            .setName('Target languages')
-            .setDesc('Comma-separated list of language codes (e.g.: "fr, de")')
+            .setName(this.plugin.strings.settings.TARGET_LANGS_FIELD_NAME)
+            .setDesc(this.plugin.strings.settings.TARGET_LANGS_FIELD_DESC)
             .addText(text => text
-                .setPlaceholder('fr, de, cn, ...')
+                .setPlaceholder('fr, de, ...')
                 .setValue(this.plugin.settings.targetLanguages.join(', '))
                 .onChange(async (value) => {
                     this.plugin.settings.targetLanguages = value.split(',').map(lang => lang.trim());
@@ -68,8 +55,8 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 }));
 
         new Setting(containerEl)
-            .setName('Auto translate')
-            .setDesc('Enable to automatically add translations of the note title when you create a new note or change the title of an existing one')
+            .setName(this.plugin.strings.settings.AUTO_TRANSLATE_TOGGLE_NAME)
+            .setDesc(this.plugin.strings.settings.AUTO_TRANSLATE_TOGGLE_DESC)
             .addToggle(toggle => toggle
                 .setValue(this.plugin.settings.autoTranslate)
                 .onChange((value: boolean) => {
@@ -77,11 +64,11 @@ export class MultilingualSettingTab extends PluginSettingTab {
                     this.plugin.saveSettings();
                 }));
 
-        containerEl.createEl('h3', { 'text': 'Translation service' });
+        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_TRANSLATOR });
 
         new Setting(containerEl)
-            .setName('Translation service')
-            .setDesc('Google Translate is more widely used and supports more languages, DeepL is great and easier to set up.')
+            .setName(this.plugin.strings.settings.TRANSLATOR_SELECTOR_NAME)
+            .setDesc(this.plugin.strings.settings.TRANSLATOR_SELECTOR_DESC)
             .addDropdown(dropdown => dropdown
                 .addOption('Google Translate', 'Google Translate')
                 .addOption('DeepL', 'DeepL')
@@ -96,4 +83,18 @@ export class MultilingualSettingTab extends PluginSettingTab {
         let apiKeySetting = new Setting(containerEl);
         this.updateApiKeySetting(apiKeySetting);
 	}
+
+    // Updates the api key field in the setting to reflect the chosen translator
+    private updateApiKeySetting(apiKeySetting: Setting) {
+        apiKeySetting
+            .clear()
+            .setName(strFormat(this.plugin.strings.settings.API_KEY_FIELD_NAME, {translator: this.plugin.settings.translatorName}))
+            .setDesc(strFormat(this.plugin.strings.settings.API_KEY_FIELD_DESC, {translator: this.plugin.settings.translatorName}))
+            .addText(text => text
+                .setPlaceholder(this.plugin.settings.apiKeys ? `*** *** *** ${this.plugin.settings.apiKeys[this.plugin.settings.translatorName].slice(-4)}` : 'YOUR_API_KEY')  // showing *** *** *** ABCD
+                .onChange(async (value) => {
+                    this.plugin.settings.apiKeys[this.plugin.settings.translatorName] = value;
+                    await this.plugin.saveSettings();
+                }));
+    }
 }

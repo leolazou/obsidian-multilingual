@@ -17,5 +17,23 @@
             "SERVICE_UNAVAILABLE": "Title not translated! Service unavailable, try again later 🕙",
             "OTHER_ERROR": "Title not translated! Some weird error during translation 🤯"
         }
+    },
+
+    "menus": {
+        "COMMAND_ACTION": "Translate page title into aliases",
+        "EDITOR_MENU_ACTION": "Add title translation to aliases"
+    },
+
+    "settings": {
+        "H3_GENERAL": "General settings",
+        "TARGET_LANGS_FIELD_NAME": "Target languages",
+        "TARGET_LANGS_FIELD_DESC": "Comma-separated list of language codes (e.g.: \"fr, de\")",
+        "AUTO_TRANSLATE_TOGGLE_NAME": "Auto translate",
+        "AUTO_TRANSLATE_TOGGLE_DESC": "Enable to automatically add translations of the note title when you create a new note or change the title of an existing one",
+        "H3_TRANSLATOR": "Translation service",
+        "TRANSLATOR_SELECTOR_NAME": "Translation service",
+        "TRANSLATOR_SELECTOR_DESC": "Google Translate is more widely used and supports more languages, DeepL is great and easier to set up.",
+        "API_KEY_FIELD_NAME": "${translator} API key (mandatory)",
+        "API_KEY_FIELD_DESC": "Create a ${translator} API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)"
     }
 }
