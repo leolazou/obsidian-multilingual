@@ -8,11 +8,14 @@ export default class MultilingualPlugin extends Plugin {
 	settings: MultilingualSettings;
 	translationService: TranslationService;
 
+	// instanciates a TranslationService, based on the settings
+	public loadTranslationService() {
+		this.translationService = new translationServicesMap[this.settings.selectedTranslationService](this.settings);
+	}
+
 	async onload() {
 		await this.loadSettings();
-
-		// instanciates a TranslationService, based on the settings
-		this.translationService = new translationServicesMap[this.settings.selectedTranslationService](this.settings);
+		this.loadTranslationService();
 
 		// Automatically translates title when a note is created if the setting is enabled.
 		this.app.workspace.onLayoutReady(() => {
