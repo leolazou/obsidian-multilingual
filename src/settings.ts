@@ -1,15 +1,23 @@
 import { App, PluginSettingTab, Setting, ToggleComponent } from 'obsidian';
 import {default as MultilingualPlugin} from './main'
+import { GoogleTranslationService } from './googleTranslationService';
+
+export const translationServicesMap = {
+    "Google Translate": GoogleTranslationService,
+    "DeepL": GoogleTranslationService
+}
 
 export interface MultilingualSettings {
 	targetLanguages: string[];
     autoTranslate: boolean;
+    selectedTranslationService: "Google Translate" | "DeepL";
     apiKey: string;
 }
 
 export const DEFAULT_SETTINGS: MultilingualSettings = {
     targetLanguages: ['fr', 'de'],
     autoTranslate: false,
+    selectedTranslationService: "Google Translate",
     apiKey: ""
 }
 

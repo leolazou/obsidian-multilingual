@@ -1,17 +1,20 @@
 import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, FileView } from 'obsidian';
-import { DEFAULT_SETTINGS, MultilingualSettings, MultilingualSettingTab } from './settings'
+import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translationServicesMap } from './settings'
 import { GoogleTranslationService } from './googleTranslationService';
+import { TranslationService } from './translationService';
 import * as texts from  './texts.json';
+import { error } from 'console';
 
 export default class MultilingualPlugin extends Plugin {
 	settings: MultilingualSettings;
-	googleTranslationService: GoogleTranslationService;
+	translationService: TranslationService;
 
 	async onload() {
 		await this.loadSettings();
 
-		this.googleTranslationService = new GoogleTranslationService(this.settings)
-		
+		// instanciates a TranslationService, based on the settings
+		this.translationService = new translationServicesMap[this.settings.selectedTranslationService](this.settings);
+
 		// Automatically translates title when a note is created if the setting is enabled.
 		this.app.workspace.onLayoutReady(() => {
 			this.registerEvent (
@@ -57,7 +60,7 @@ export default class MultilingualPlugin extends Plugin {
 				if (view.file) {
 					this.translateTitle(view.file)
 				} else {
-					new Notice(texts.notices.NOT_A_FILE)
+					new Notice(texts.notices.errors.NOT_A_FILE)
 				}
 			},
 		});
@@ -87,10 +90,21 @@ export default class MultilingualPlugin extends Plugin {
 	}
 
 	async translateTitle(file: TFile) {
-        const title = file.basename;
-		const translatedTitles = await this.googleTranslationService.translate(file.basename, this.settings.targetLanguages)
-		if (translatedTitles) {
-			this.addAliases(file, Object.values(translatedTitles))
+		const translationsResult = await this.translationService.translate(file.basename, this.settings.targetLanguages);
+
+		if (translationsResult.errorType) {
+			new Notice(texts.notices.translation_errors[translationsResult.errorType]);
+			if (translationsResult.error) {
+				console.error("Error during translation :", error);
+			}
+		} else if (translationsResult.translations) {
+			let translationsToAdd = Object.values(translationsResult.translations)
+				.filter(([key]) => key !== translationsResult.detectedLanguage)
+				.map(variants => variants[0]);
+			
+			this.addAliases(file, translationsToAdd);
+		} else {
+			// no translations added
 		}
     }
 
@@ -102,7 +116,7 @@ export default class MultilingualPlugin extends Plugin {
 				aliases = [...new Set(aliases)]; // removes potential duplicates 
 
 				frontmatter.aliases = aliases;
-				new Notice(texts.notices.TRANSLATIONS_ADDED);
+				new Notice(texts.notices.success.TRANSLATIONS_ADDED);
 			}
 		})
 	}

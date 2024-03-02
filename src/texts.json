@@ -1,9 +1,21 @@
 {
     "notices": {
-        "TRANSLATIONS_ADDED": "New title translations added to aliases.",
-        "NOT_A_FILE": "Cannot translate the title of nothing, because nothing doesn't have anything, notably no title.",
-        "GENERAL_TRANSLATION_ERROR": "Title not translated! Some weird error during translation 🤯",
-        "OFFLINE": "Title not translated! You seem to be offline 🏕️",
-        "AUTH_PROBLEM": "Title not translated! Authentication problem, check your API key 👾"
+        "success": {
+            "TRANSLATIONS_ADDED": "New title translations added to aliases.",
+            "No_TRANSLATIONS_ADDED": "No title treanslations added."
+        },
+
+        "errors" : {
+            "NOT_A_FILE": "Cannot translate the title of nothing, because nothing doesn't have anything, notably no title.",
+            "NO_LANGUAGES_SELECTED": "Title not translated! Please choose at least one language in the plugin settings 🔧"    
+        },
+
+        "translation_errors" : {
+            "OFFLINE": "Title not translated! You seem to be offline 🏕️",
+            "AUTH_PROBLEM": "Title not translated! Authentication problem, check your API key 👾",
+            "FREE_LIMITS_REACHED": "Title not translated! Free usage limits reached 😱",
+            "SERVICE_UNAVAILABLE": "Title not translated! Service unavailable, try again later 🕙",
+            "OTHER_ERROR": "Title not translated! Some weird error during translation 🤯"
+        }
     }
 }

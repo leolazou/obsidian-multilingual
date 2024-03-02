@@ -1,57 +1,64 @@
-import { Notice, request } from "obsidian";
-import { MultilingualSettings } from "./settings";
+import { requestUrl } from "obsidian";
+import { TranslationService, TranslationsResult, ErrorType } from "./translationService";
 import { decodeHtmlEntities } from "./helpers";
-import * as texts from "./texts.json";
 
 const googleCloudTranslationURL = 'https://translation.googleapis.com/language/translate/v2'
 
-export class GoogleTranslationService {
-    private settings: MultilingualSettings;
+export class GoogleTranslationService extends TranslationService {
 
-    constructor (settings: MultilingualSettings) {
-        this.settings = settings;
-    }
+    public async translate(text: string, targetLanguages: string[], sourceLanguage?: string): Promise<TranslationsResult> {
+        let result: TranslationsResult = {};
 
-    public async translate(text: string, targetLanguages: string[], sourceLanguage?: string): Promise<{ [key: string]: string }> {
         let url = `${googleCloudTranslationURL}?${[
             `key=${this.settings.apiKey}`,
-            `q=${encodeURIComponent(text)}`
+            `q=${encodeURIComponent(text)}`,
+            `source=${sourceLanguage ? sourceLanguage : ''}`
         ].join('&')}`
 
-        if (sourceLanguage) {
-            url = `${url}&source=${sourceLanguage}`
-        }
+        // if (sourceLanguage) {
+        //     url = `${url}&source=${sourceLanguage}`
+        // }
 
         try {
-            let multiLangTranslation:{ [key: string]: string } = {};
-
             for (let targetLanguage of targetLanguages) {
-                url = `${url}&target=${targetLanguage}`;
+                const response = await requestUrl({
+                    url: `${url}&target=${targetLanguage}`,  // the only URL parameter that changes with in loop is the target language
+                    method: 'POST'
+                });
 
-                const response = await request({ url: url, method: 'POST' });
-                const translations = JSON.parse(response).data?.translations;
-                if (translations) {
-                    if (translations[0].detectedSourceLanguage != targetLanguage) {
-                        multiLangTranslation[targetLanguage] = decodeHtmlEntities(translations[0].translatedText)
-                    } // else not adding to the list
-                } else {
-                    new Notice(texts.notices.GENERAL_TRANSLATION_ERROR)
-                    throw new Error("Unexpected response format from Google Translate");
+                if (response.status !== 200) {
+                    return {
+                        errorType: ErrorType.OTHER_ERROR,
+                        errorCode: response.status,
+                        errorMessage: response.json.error!.message
+                    }
                 }
+
+                const translations = response.json.data?.translations;
+                if (!translations) {
+                    return {errorType: ErrorType.OTHER_ERROR}
+                }
+
+                result.detectedLanguage ??= translations[0].detectedSourceLanguage;
+                (result.translations ??= {})[targetLanguage] = translations.map((variants: any) => decodeHtmlEntities(variants.translatedText));
             }
 
-            return multiLangTranslation
+            return result;
 
         } catch (error) {
-            if (!navigator.onLine) {  // no internet connection
-                new Notice(texts.notices.OFFLINE)
-            } else if (error.name === 'HTTPError' && error.message === 'Not authorized') {
-                new Notice(texts.notices.AUTH_PROBLEM)
+            result.error = error;
+            result.errorCode = error.errorCode;
+            result.errorMessage = error.errorMessage;
+            
+            if (!navigator.onLine) {
+                // no internet connection
+                result.errorType = ErrorType.OFFLINE;
             } else {
-                new Notice(texts.notices.GENERAL_TRANSLATION_ERROR)
+                result.errorType = ErrorType.OTHER_ERROR;
             }
+
+            // TODO implement more different errors
+            return result;
         }
-        
-        return {};
     }
 }
