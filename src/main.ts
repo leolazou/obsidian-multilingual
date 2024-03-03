@@ -115,23 +115,23 @@ export default class MultilingualPlugin extends Plugin {
 			.filter(([langCode]) => langCode !== translationsResult.detectedLanguage)
 			.map(([, variants]) => variants[0]); 
 		
-		if (translationsToAdd.length > 0) {
-			this.addAliases(file, translationsToAdd);
-		} else {
-			// no translations added
-		}
+		this.addAliases(file, translationsToAdd);
     }
 
-	async addAliases(file: TFile, newAliases: string[]) {
+	async addAliases(file: TFile, aliases: string[]) {
 		await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
 			if (typeof(frontmatter) == 'object'){
-				let aliases = frontmatter.aliases || []; // gets current aliases or creates the new list
-				newAliases.remove(file.basename);  // not to duplicate the title in the aliases, if the tranlsation(s) are identic to the title
-				aliases = aliases.concat(newAliases); // adds new aliases
-				aliases = [...new Set(aliases)]; // removes potential duplicates 
+				aliases.remove(file.basename);  // not to duplicate the title in the aliases, if the tranlsation(s) are identic to the title
+				const currentAliases = frontmatter.aliases || []; // gets current aliases or creates the new list
+				const newAliases = [...new Set(currentAliases.concat(aliases))]; // adds new aliases and removes potential duplicates 
 
-				frontmatter.aliases = aliases;
-				new Notice(this.strings.notices.success.TRANSLATIONS_ADDED);
+				if (newAliases.length > currentAliases.length) {
+					frontmatter.aliases = newAliases;
+					new Notice(this.strings.notices.success.TRANSLATIONS_ADDED);
+				} else {
+					new Notice(this.strings.notices.success.No_TRANSLATIONS_ADDED);
+					// TODO more granular messages depending on various cases
+				}
 			}
 		})
 	}

@@ -2,7 +2,7 @@
     "notices": {
         "success": {
             "TRANSLATIONS_ADDED": "New title translations added to aliases.",
-            "No_TRANSLATIONS_ADDED": "No title treanslations added."
+            "No_TRANSLATIONS_ADDED": "No new title treanslations added."
         },
 
         "errors" : {
