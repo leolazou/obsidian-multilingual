@@ -86,8 +86,8 @@ export default class MultilingualPlugin extends Plugin {
 	}
 
 	private isToBeAutoTranslated(title: string): boolean {
-		if (moment(title, "YYYY-MM-DD", true).isValid()) {
-			// if default YYYY-MM-DD format, do not auto-translate
+		if (moment(title, (this.settings.dateFormat || 'YYYY-MM-DD'), true).isValid()) {
+			// if corresponds to the defined date format or YYYY-MM-DD by default, do not translate
 			return false
 		} else if ((new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title)) {
 			// if default titlename like "Untitled 3", respecting the locale, do not auto-translate

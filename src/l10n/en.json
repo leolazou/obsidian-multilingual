@@ -25,11 +25,14 @@
     },
 
     "settings": {
-        "H3_GENERAL": "General settings",
+        "H3_LANGUAGES": "Languages",
         "TARGET_LANGS_FIELD_NAME": "Target languages",
         "TARGET_LANGS_FIELD_DESC": "Comma-separated list of language codes (e.g.: \"fr, de\")",
+        "H3_AUTO_TRANSLATE": "Auto translate",
         "AUTO_TRANSLATE_TOGGLE_NAME": "Auto translate",
         "AUTO_TRANSLATE_TOGGLE_DESC": "Enable to automatically add translations of the note title when you create a new note or change the title of an existing one",
+        "DATE_FORMAT_FIELD_NAME": "Ingore date format",
+        "DATE_FORMAT_FIELD_DESC": "When auto translate is on, the date format to be ignored for translation (for example for daily notes). Default: YYYY-MM-DD will always be ignored.",
         "H3_TRANSLATOR": "Translation service",
         "TRANSLATOR_SELECTOR_NAME": "Translation service",
         "TRANSLATOR_SELECTOR_DESC": "Google Translate is more widely used and supports more languages, DeepL is great and easier to set up.",

@@ -14,6 +14,7 @@ export const translatorsMap: { [key in TranslatorName]: any } = {
 export interface MultilingualSettings {
 	targetLanguages: string[];
     autoTranslate: boolean;
+    dateFormat: string;
     translatorName: TranslatorName;
     apiKeys: {[key in TranslatorName]: string};
 }
@@ -21,6 +22,7 @@ export interface MultilingualSettings {
 export const DEFAULT_SETTINGS: MultilingualSettings = {
     targetLanguages: ['fr', 'de'],
     autoTranslate: false,
+    dateFormat: "",
     translatorName: 'Google Translate',
     apiKeys: {
         'Google Translate': '',
@@ -41,7 +43,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_GENERAL})
+        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_LANGUAGES})
 		
 		new Setting(containerEl)
             .setName(this.plugin.strings.settings.TARGET_LANGS_FIELD_NAME)
@@ -54,6 +56,8 @@ export class MultilingualSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 }));
 
+        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_AUTO_TRANSLATE})
+
         new Setting(containerEl)
             .setName(this.plugin.strings.settings.AUTO_TRANSLATE_TOGGLE_NAME)
             .setDesc(this.plugin.strings.settings.AUTO_TRANSLATE_TOGGLE_DESC)
@@ -61,6 +65,19 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.autoTranslate)
                 .onChange((value: boolean) => {
                     this.plugin.settings.autoTranslate = value;
+                    dateFormatField.setDisabled(!value);
+                    this.plugin.saveSettings();
+                }));
+
+        const dateFormatField = new Setting(containerEl)
+            .setName(this.plugin.strings.settings.DATE_FORMAT_FIELD_NAME)
+            .setDesc(this.plugin.strings.settings.DATE_FORMAT_FIELD_DESC)
+            .addText(text => text
+                .setDisabled(!this.plugin.settings.autoTranslate)
+                .setPlaceholder('YYYY-MM-DD')
+                .setValue(this.plugin.settings.dateFormat)
+                .onChange((value: string) => {
+                    this.plugin.settings.dateFormat = value;
                     this.plugin.saveSettings();
                 }));
 
