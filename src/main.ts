@@ -126,6 +126,7 @@ export default class MultilingualPlugin extends Plugin {
 		await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
 			if (typeof(frontmatter) == 'object'){
 				let aliases = frontmatter.aliases || []; // gets current aliases or creates the new list
+				newAliases.remove(file.basename);  // not to duplicate the title in the aliases, if the tranlsation(s) are identic to the title
 				aliases = aliases.concat(newAliases); // adds new aliases
 				aliases = [...new Set(aliases)]; // removes potential duplicates 
 
