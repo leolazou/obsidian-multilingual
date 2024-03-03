@@ -90,12 +90,12 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .addOption('Google Translate', 'Google Translate')
                 .addOption('DeepL', 'DeepL')
                 .setValue(this.plugin.settings.translatorName)
-                .onChange((value: TranslatorName) => {
+                .onChange(async (value: TranslatorName) => {
                     this.plugin.settings.translatorName = value;
                     this.plugin.loadTranslator();  // re-instanciates the translator in the main.ts to reflect the change
                     this.updateApiKeySetting(apiKeySetting);
-                })
-                )
+                    await this.plugin.saveSettings();
+                }));
 
         let apiKeySetting = new Setting(containerEl);
         this.updateApiKeySetting(apiKeySetting);
