@@ -92,11 +92,14 @@ export default class MultilingualPlugin extends Plugin {
 	}
 
 	private isToBeAutoTranslated(title: string): boolean {
-		if (moment(title, (this.settings.dateFormat || 'YYYY-MM-DD'), true).isValid()) {
-			// if corresponds to the defined date format or YYYY-MM-DD by default, do not translate
-			return false
+		if (/^[0-9\.\,\'\+\-\_\&\@\%\~\$\(\) ]+$/.test(title)) {
+			// if only composed of numbers and special chars, do not translate
+			return false;
 		} else if ((new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title)) {
 			// if default titlename like "Untitled 3", respecting the locale, do not auto-translate
+			return false;
+		} else if (this.settings.dateFormat && moment(title, this.settings.dateFormat, true).isValid()) {
+			// if corresponds to the defined date format, do not translate
 			return false;
 		} else if (this.settings.ignoreRegex && (new RegExp(this.settings.ignoreRegex)).test(title)) {
 			// if matches a custom user Regex to be ignored, do not translate
