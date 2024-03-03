@@ -15,6 +15,7 @@ export interface MultilingualSettings {
 	targetLanguages: string[];
     autoTranslate: boolean;
     dateFormat: string;
+    ignoreRegex: string;
     translatorName: TranslatorName;
     apiKeys: {[key in TranslatorName]: string};
 }
@@ -22,7 +23,8 @@ export interface MultilingualSettings {
 export const DEFAULT_SETTINGS: MultilingualSettings = {
     targetLanguages: ['fr', 'de'],
     autoTranslate: false,
-    dateFormat: "",
+    dateFormat: '',
+    ignoreRegex: '',
     translatorName: 'Google Translate',
     apiKeys: {
         'Google Translate': '',
@@ -78,6 +80,18 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.dateFormat)
                 .onChange((value: string) => {
                     this.plugin.settings.dateFormat = value;
+                    this.plugin.saveSettings();
+                }));
+
+        const ignoreRegexField = new Setting(containerEl)
+            .setName(this.plugin.strings.settings.IGNORE_REGEX_FIELD_NAME)
+            .setDesc(this.plugin.strings.settings.IGNORE_REGEX_FIELD_DESC)
+            .addText(text => text
+                .setDisabled(!this.plugin.settings.autoTranslate)
+                .setPlaceholder('^_^regex...')
+                .setValue(this.plugin.settings.ignoreRegex)
+                .onChange((value: string) => {
+                    this.plugin.settings.ignoreRegex = value;
                     this.plugin.saveSettings();
                 }));
 

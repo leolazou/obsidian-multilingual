@@ -92,6 +92,9 @@ export default class MultilingualPlugin extends Plugin {
 		} else if ((new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title)) {
 			// if default titlename like "Untitled 3", respecting the locale, do not auto-translate
 			return false;
+		} else if (this.settings.ignoreRegex && (new RegExp(this.settings.ignoreRegex)).test(title)) {
+			// if matches a custom user Regex to be ignored, do not translate
+			return false;
 		}
 		return true;
 	}
