@@ -25,23 +25,23 @@
     },
 
     "settings": {
-        "H3_LANGUAGES": "Languages",
+        "H3_GENERAL": "General",
         "TARGET_LANGS_FIELD_NAME": "Target languages",
         "TARGET_LANGS_FIELD_DESC": "Comma-separated list of language codes (e.g.: \"fr, it\")",
-        "H3_AUTO_TRANSLATE": "Auto translate",
         "AUTO_TRANSLATE_TOGGLE_NAME": "Auto translate",
         "AUTO_TRANSLATE_TOGGLE_DESC": "Enable to automatically add translations of the note title when you create a new note or change the title of an existing one",
+        "H3_TRANSLATOR": "Translation service",
+        "TRANSLATOR_SELECTOR_NAME": "Translation service",
+        "TRANSLATOR_SELECTOR_DESC": "Google Translate is more widely used and supports more languages, DeepL is great and easier to set up.",
+        "API_KEY_FIELD_NAME": "${translator} API key (mandatory)",
+        "API_KEY_FIELD_DESC": "Create a ${translator} API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)",
+        "H3_ADVANCED": "Advanced",
         "DATE_FORMAT_FIELD_NAME": "Date format to ignore",
         "DATE_FORMAT_FIELD_DESC": "When auto translate is on, titles matching this date format won't be translated. Can be useful for for daily notes. Default: YYYY-MM-DD.",
         "IGNORE_REGEX_FIELD_NAME": "Custom regex to ignore",
         "IGNORE_REGEX_FIELD_DESC": "When auto translate is on, titles matching this custom regex won't be translated.",
         "IGNORE_PATH_FIELD_NAME": "Custom path to ignore.",
         "IGNORE_PATH_FIELD_DESC": "When auto translate is on, titles of notes in this path and subfolders won't be translated.",
-        "IGNORE_PATH_FIELD_PLACEHOLDER": "e.g.: NASA/Apollo 15/LRV",
-        "H3_TRANSLATOR": "Translation service",
-        "TRANSLATOR_SELECTOR_NAME": "Translation service",
-        "TRANSLATOR_SELECTOR_DESC": "Google Translate is more widely used and supports more languages, DeepL is great and easier to set up.",
-        "API_KEY_FIELD_NAME": "${translator} API key (mandatory)",
-        "API_KEY_FIELD_DESC": "Create a ${translator} API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)"
+        "IGNORE_PATH_FIELD_PLACEHOLDER": "e.g.: NASA/Apollo 15/LRV"
     }
 }

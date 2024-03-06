@@ -47,7 +47,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_LANGUAGES})
+        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_GENERAL})
 		
 		new Setting(containerEl)
             .setName(this.plugin.strings.settings.TARGET_LANGS_FIELD_NAME)
@@ -60,8 +60,6 @@ export class MultilingualSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 }));
 
-        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_AUTO_TRANSLATE})
-
         new Setting(containerEl)
             .setName(this.plugin.strings.settings.AUTO_TRANSLATE_TOGGLE_NAME)
             .setDesc(this.plugin.strings.settings.AUTO_TRANSLATE_TOGGLE_DESC)
@@ -72,6 +70,27 @@ export class MultilingualSettingTab extends PluginSettingTab {
                     dateFormatField.setDisabled(!value);
                     this.plugin.saveSettings();
                 }));
+
+        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_TRANSLATOR });
+
+        new Setting(containerEl)
+            .setName(this.plugin.strings.settings.TRANSLATOR_SELECTOR_NAME)
+            .setDesc(this.plugin.strings.settings.TRANSLATOR_SELECTOR_DESC)
+            .addDropdown(dropdown => dropdown
+                .addOption('Google Translate', 'Google Translate')
+                .addOption('DeepL', 'DeepL')
+                .setValue(this.plugin.settings.translatorName)
+                .onChange(async (value: TranslatorName) => {
+                    this.plugin.settings.translatorName = value;
+                    this.plugin.loadTranslator();  // re-instanciates the translator in the main.ts to reflect the change
+                    this.updateApiKeySetting(apiKeySetting);
+                    await this.plugin.saveSettings();
+                }));
+
+        let apiKeySetting = new Setting(containerEl);
+        this.updateApiKeySetting(apiKeySetting);
+
+        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_ADVANCED})
 
         const dateFormatField = new Setting(containerEl)
             .setName(this.plugin.strings.settings.DATE_FORMAT_FIELD_NAME)
@@ -107,25 +126,6 @@ export class MultilingualSettingTab extends PluginSettingTab {
                     this.plugin.settings.ignorePath = value;
                     this.plugin.saveSettings();
                 }));
-
-        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_TRANSLATOR });
-
-        new Setting(containerEl)
-            .setName(this.plugin.strings.settings.TRANSLATOR_SELECTOR_NAME)
-            .setDesc(this.plugin.strings.settings.TRANSLATOR_SELECTOR_DESC)
-            .addDropdown(dropdown => dropdown
-                .addOption('Google Translate', 'Google Translate')
-                .addOption('DeepL', 'DeepL')
-                .setValue(this.plugin.settings.translatorName)
-                .onChange(async (value: TranslatorName) => {
-                    this.plugin.settings.translatorName = value;
-                    this.plugin.loadTranslator();  // re-instanciates the translator in the main.ts to reflect the change
-                    this.updateApiKeySetting(apiKeySetting);
-                    await this.plugin.saveSettings();
-                }));
-
-        let apiKeySetting = new Setting(containerEl);
-        this.updateApiKeySetting(apiKeySetting);
 	}
 
     // Updates the api key field in the setting to reflect the chosen translator
