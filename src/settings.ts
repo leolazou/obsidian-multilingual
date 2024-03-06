@@ -16,6 +16,7 @@ export interface MultilingualSettings {
     autoTranslate: boolean;
     dateFormat: string;
     ignoreRegex: string;
+    ignorePath: string;
     translatorName: TranslatorName;
     apiKeys: {[key in TranslatorName]: string};
 }
@@ -25,6 +26,7 @@ export const DEFAULT_SETTINGS: MultilingualSettings = {
     autoTranslate: false,
     dateFormat: '',
     ignoreRegex: '',
+    ignorePath: '',
     translatorName: 'Google Translate',
     apiKeys: {
         'Google Translate': '',
@@ -51,7 +53,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
             .setName(this.plugin.strings.settings.TARGET_LANGS_FIELD_NAME)
             .setDesc(this.plugin.strings.settings.TARGET_LANGS_FIELD_DESC)
             .addText(text => text
-                .setPlaceholder('fr, de, ...')
+                .setPlaceholder('fr, it, ...')
                 .setValue(this.plugin.settings.targetLanguages.join(', '))
                 .onChange(async (value) => {
                     this.plugin.settings.targetLanguages = value.split(',').map(lang => lang.trim());
@@ -92,6 +94,17 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.ignoreRegex)
                 .onChange((value: string) => {
                     this.plugin.settings.ignoreRegex = value;
+                    this.plugin.saveSettings();
+                }));
+
+        const ignorePathField = new Setting(containerEl)
+            .setName(this.plugin.strings.settings.IGNORE_PATH_FIELD_NAME)
+            .setDesc(this.plugin.strings.settings.IGNORE_PATH_FIELD_DESC)
+            .addText(text => text
+                .setPlaceholder(this.plugin.strings.settings.IGNORE_PATH_FIELD_PLACEHOLDER)
+                .setValue(this.plugin.settings.ignorePath)
+                .onChange((value: string) => {
+                    this.plugin.settings.ignorePath = value;
                     this.plugin.saveSettings();
                 }));
 

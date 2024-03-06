@@ -24,7 +24,7 @@ export default class MultilingualPlugin extends Plugin {
 				this.app.vault.on('create', (file: TFile) => {
 					if (this.settings.autoTranslate &&
 						file.name &&
-						this.isToBeAutoTranslated(file.basename)
+						this.isToBeAutoTranslated(file.basename, file.path)
 					) {
 						this.translateTitle(file);
 					}
@@ -37,7 +37,7 @@ export default class MultilingualPlugin extends Plugin {
 			this.app.vault.on('rename', (file: TFile, oldPath: string) => {
 				if (this.settings.autoTranslate &&
 					!oldPath.includes(file.name) &&  // not when file is simply moved to a new folder
-					this.isToBeAutoTranslated(file.basename)
+					this.isToBeAutoTranslated(file.basename, file.path)
 				) {
 					this.translateTitle(file);
 				}
@@ -91,8 +91,11 @@ export default class MultilingualPlugin extends Plugin {
 
 	}
 
-	private isToBeAutoTranslated(title: string): boolean {
-		if (/^[0-9\.\,\'\+\-\_\&\@\%\~\$\(\) ]+$/.test(title)) {
+	private isToBeAutoTranslated(title: string, path: string): boolean {
+		if (this.settings.ignorePath && path.startsWith(this.settings.ignorePath)) {
+			// if path begins with defined ignore path, do not translate
+			return false;
+		} else if (/^[0-9\.\,\'\+\-\_\&\@\%\~\$\(\) ]+$/.test(title)) {
 			// if only composed of numbers and special chars, do not translate
 			return false;
 		} else if ((new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title)) {
