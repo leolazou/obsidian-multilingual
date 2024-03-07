@@ -117,7 +117,7 @@ export default class MultilingualPlugin extends Plugin {
 		if (translationsResult.errorType) {
 			new Notice(this.strings.notices.translation_errors[translationsResult.errorType]);
 			if (translationsResult.error) {
-				console.error("Error during translation :", error);
+				console.error("Error during translation: ", translationsResult.error);
 			}
 			return;
 			// maybe later implement another logic where errors on some translations can keep other successful
