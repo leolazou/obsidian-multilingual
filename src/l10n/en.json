@@ -6,14 +6,17 @@
         },
 
         "errors" : {
-            "NOT_A_FILE": "Cannot translate the title of nothing, because nothing doesn't have anything, notably no title.",
-            "NO_LANGUAGES_SELECTED": "Title not translated! Please choose at least one language in the plugin settings 🔧"    
+            "NOT_A_FILE": "Cannot translate the title of nothing, because nothing doesn't have anything, notably no title."
         },
 
         "translation_errors" : {
             "OFFLINE": "Title not translated! You seem to be offline 🏕️",
+            "NO_LANGUAGES": "Title not translated! Please choose at least one language in the plugin settings 🔧",
+            "INVALID_LANGUAGES": "Title not translated! One of the languages you requested is not valid, please check in settings 😬",
+            "AUTH_NO_KEY": "Title not translated! Please provide an API key in Settings 🔑",
+            "AUTH_BAD_KEY": "Title not translated! Check your API key, it seems not valid 🔑",
             "AUTH_PROBLEM": "Title not translated! Authentication problem, check your API key 👾",
-            "FREE_LIMITS_REACHED": "Title not translated! Free usage limits reached 😱",
+            "FREE_LIMITS_REACHED": "Title not translated! Free usage limits reached, please check you API key account 😱",
             "SERVICE_UNAVAILABLE": "Title not translated! Service unavailable, try again later 🕙",
             "OTHER_ERROR": "Title not translated! Some weird error during translation 🤯"
         }

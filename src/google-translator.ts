@@ -1,4 +1,4 @@
-import { requestUrl } from "obsidian";
+import { RequestUrlResponse, requestUrl } from "obsidian";
 import { Translator, TranslationsResult, ErrorType } from "./translator";
 import { decodeHtmlEntities } from "./helpers";
 
@@ -19,13 +19,14 @@ export class GoogleTranslator extends Translator {
             for (let targetLanguage of targetLanguages) {
                 params.set('target', targetLanguage);
                 const response = await requestUrl({
+                    throw: false,
                     url: `${GOOGLE_CLOUD_TRANSLATION_URL}?${params.toString()}`,
                     method: 'POST'
                 })
 
                 if (response.status !== 200) {
                     return {
-                        errorType: ErrorType.OTHER_ERROR,
+                        errorType: this.classifyApiError(response),
                         errorCode: response.status,
                         errorMessage: response.json.error!.message
                     }
@@ -43,19 +44,25 @@ export class GoogleTranslator extends Translator {
             return result;
 
         } catch (error) {
-            result.error = error;
-            result.errorCode = error.errorCode;
-            result.errorMessage = error.errorMessage;
-            
-            if (!navigator.onLine) {
-                // no internet connection
-                result.errorType = ErrorType.OFFLINE;
-            } else {
-                result.errorType = ErrorType.OTHER_ERROR;
-            }
+            return { errorType: ErrorType.OTHER_ERROR, error: error };
+        }
+    }
 
-            // TODO implement more different errors
-            return result;
+    private classifyApiError(response: RequestUrlResponse): ErrorType {
+        if (response.status == 403) {
+            return ErrorType.AUTH_PROBLEM;
+        }
+        else if (response.status == 400 && response.json.error.message.contains('API key not valid')) {
+            return ErrorType.AUTH_BAD_KEY;
+        }
+        else if (response.status == 400 && response.json.error.message.contains('Invalid Value') && response.json.error.details[0]?.fieldViolations[0]?.field == 'target') {
+            return ErrorType.INVALID_LANGUAGES;
+        }
+        else if ([500, 503].includes(response.status)) {
+            return ErrorType.SERVICE_UNAVAILABLE;
+        }
+        else {
+            return ErrorType.OTHER_ERROR;
         }
     }
 }

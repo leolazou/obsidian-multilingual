@@ -112,12 +112,20 @@ export default class MultilingualPlugin extends Plugin {
 	}
 
 	async translateTitle(file: TFile) {
+		let preCheckError = this.translator.preCheckErrors(file.basename, this.settings.targetLanguages);
+		if (preCheckError) {
+			new Notice(this.strings.notices.translation_errors[preCheckError]);
+			return;
+		}
+
 		const translationsResult = await this.translator.translate(file.basename, this.settings.targetLanguages);
 
 		if (translationsResult.errorType) {
 			new Notice(this.strings.notices.translation_errors[translationsResult.errorType]);
 			if (translationsResult.error) {
 				console.error("Error during translation: ", translationsResult.error);
+			} else if (translationsResult.errorMessage) {
+				console.error("Error during translation: ", translationsResult.errorMessage);
 			}
 			return;
 			// maybe later implement another logic where errors on some translations can keep other successful

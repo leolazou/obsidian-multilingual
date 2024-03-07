@@ -22,7 +22,7 @@ export interface MultilingualSettings {
 }
 
 export const DEFAULT_SETTINGS: MultilingualSettings = {
-    targetLanguages: ['fr', 'de'],
+    targetLanguages: [],
     autoTranslate: false,
     dateFormat: '',
     ignoreRegex: '',
@@ -56,7 +56,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setPlaceholder('fr, it, ...')
                 .setValue(this.plugin.settings.targetLanguages.join(', '))
                 .onChange(async (value) => {
-                    this.plugin.settings.targetLanguages = value.split(',').map(lang => lang.trim());
+                    this.plugin.settings.targetLanguages = value ? value.split(',').map(lang => lang.trim()) : [];
                     await this.plugin.saveSettings();
                 }));
 
