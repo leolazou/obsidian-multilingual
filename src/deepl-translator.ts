@@ -1,4 +1,4 @@
-import { requestUrl } from "obsidian";
+import { RequestUrlResponse, requestUrl } from "obsidian";
 import { Translator, TranslationsResult, ErrorType } from "./translator";
 import { decodeHtmlEntities } from "./helpers";
 
@@ -19,13 +19,14 @@ export class DeepLTranslator extends Translator {
             params.set('target_lang', targetLanguage);
             const response = await requestUrl({
                 url: `${DEEPL_API_URL}?${params.toString()}`,
-                method: 'POST'
+                method: 'POST',
+                throw: false
             });
 
             if (response.status !== 200) {
                 return {
-                    errorType: ErrorType.OTHER_ERROR,
-                    error: response.json.error
+                    errorType: this.classifyApiError(response),
+                    error: response.text? response.json.message : undefined // sometimes the API seems to reply with just an error code and an empty unparsable message
                 };
             }
 
@@ -39,5 +40,20 @@ export class DeepLTranslator extends Translator {
         }
 
         return result;
+    }
+
+    private classifyApiError(response: RequestUrlResponse): ErrorType {
+        if (response.status == 403) {
+            return ErrorType.AUTH_PROBLEM;
+        }
+        else if (response.status == 400 && response.json.message?.contains('Value for \'target_lang\' not supported.')) {
+            return ErrorType.INVALID_LANGUAGES;
+        }
+        else if ([500, 503].includes(response.status)) {
+            return ErrorType.SERVICE_UNAVAILABLE;
+        }
+        else {
+            return ErrorType.OTHER_ERROR;
+        }
     }
 }
