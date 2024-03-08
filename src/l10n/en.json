@@ -43,7 +43,7 @@
         "DATE_FORMAT_FIELD_DESC": "When auto translate is on, titles matching this date format won't be translated. Can be useful for for daily notes. Default: YYYY-MM-DD.",
         "IGNORE_REGEX_FIELD_NAME": "Custom regex to ignore",
         "IGNORE_REGEX_FIELD_DESC": "When auto translate is on, titles matching this custom regex won't be translated.",
-        "IGNORE_PATH_FIELD_NAME": "Custom path to ignore.",
+        "IGNORE_PATH_FIELD_NAME": "Custom path to ignore",
         "IGNORE_PATH_FIELD_DESC": "When auto translate is on, titles of notes in this path and subfolders won't be translated.",
         "IGNORE_PATH_FIELD_PLACEHOLDER": "e.g.: NASA/Apollo 15/LRV"
     }

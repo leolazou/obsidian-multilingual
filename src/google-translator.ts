@@ -18,9 +18,9 @@ export class GoogleTranslator extends Translator {
         for (let targetLanguage of targetLanguages) {
             params.set('target', targetLanguage);
             const response = await requestUrl({
-                throw: false,
                 url: `${GOOGLE_CLOUD_TRANSLATION_URL}?${params.toString()}`,
-                method: 'POST'
+                method: 'POST',
+                throw: false
             })
 
             if (response.status !== 200) {

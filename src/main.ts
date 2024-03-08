@@ -1,7 +1,6 @@
 import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, moment } from 'obsidian';
 import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translatorsMap } from './settings'
 import { TranslationsResult, Translator } from './translator';
-import { error, log } from 'console';
 import { untitledIn } from './l10n/elements';
 import * as defaultStrings from './l10n/en.json';
 
@@ -171,7 +170,7 @@ export default class MultilingualPlugin extends Plugin {
 			this.strings = require(`./l10n/${this.locale}.json`);
 		} catch (error) {
 			// English kept by default if the display language not available for the plugin
-			log(`Multilingual plugin isn't yet translated to ${this.locale} (funny, right?).  English selected by default as display language for the plugin. Unless the error is different: ` + error)
+			console.log(`Multilingual plugin isn't yet translated to ${this.locale} (funny, right?).  English selected by default as display language for the plugin. Unless the error is different: ` + error)
 		}
 	}
 
