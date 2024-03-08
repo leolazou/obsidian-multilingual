@@ -14,8 +14,6 @@ export enum ErrorType {
 
 export interface TranslationsResult {
 	errorType?: ErrorType;
-    errorCode?: number;
-    errorMessage?: string;
     error?: any
 
     translations?: { [key: string]: [string] };  // List of translations into every language

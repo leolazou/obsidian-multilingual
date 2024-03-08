@@ -15,47 +15,29 @@ export class DeepLTranslator extends Translator {
             source_lang: sourceLanguage || ''
         })
 
-        try{
-            for (const targetLanguage of targetLanguages) {
-                params.set('target_lang', targetLanguage);
-                const response = await requestUrl({
-                    url: `${DEEPL_API_URL}?${params.toString()}`,
-                    method: 'POST'
-                });
+        for (const targetLanguage of targetLanguages) {
+            params.set('target_lang', targetLanguage);
+            const response = await requestUrl({
+                url: `${DEEPL_API_URL}?${params.toString()}`,
+                method: 'POST'
+            });
 
-                if (response.status !== 200) {
-                    return {
-                        errorType: ErrorType.OTHER_ERROR,
-                        errorCode: response.status,
-                        errorMessage: response.json.error!.message
-                    };
-                }
-
-                const translations = response.json.translations;
-                if (!translations) {
-                    return {errorType: ErrorType.OTHER_ERROR};
-                }
-
-                result.detectedLanguage ??= translations[0].detected_source_language.toLowerCase();
-                (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.text));
+            if (response.status !== 200) {
+                return {
+                    errorType: ErrorType.OTHER_ERROR,
+                    error: response.json.error
+                };
             }
 
-            return result;
-
-        } catch (error) {
-            result.error = error;
-            result.errorCode = error.errorCode;
-            result.errorMessage = error.errorMessage;
-            
-            if (!navigator.onLine) {
-                // no internet connection
-                result.errorType = ErrorType.OFFLINE;
-            } else {
-                result.errorType = ErrorType.OTHER_ERROR;
+            const translations = response.json.translations;
+            if (!translations) {
+                return {errorType: ErrorType.OTHER_ERROR};
             }
 
-            // TODO implement better errors
-            return result;
+            result.detectedLanguage ??= translations[0].detected_source_language.toLowerCase();
+            (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.text));
         }
+
+        return result;
     }
 }

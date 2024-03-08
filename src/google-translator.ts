@@ -15,47 +15,41 @@ export class GoogleTranslator extends Translator {
             source: sourceLanguage || ''
         })
 
-        try {
-            for (let targetLanguage of targetLanguages) {
-                params.set('target', targetLanguage);
-                const response = await requestUrl({
-                    throw: false,
-                    url: `${GOOGLE_CLOUD_TRANSLATION_URL}?${params.toString()}`,
-                    method: 'POST'
-                })
+        for (let targetLanguage of targetLanguages) {
+            params.set('target', targetLanguage);
+            const response = await requestUrl({
+                throw: false,
+                url: `${GOOGLE_CLOUD_TRANSLATION_URL}?${params.toString()}`,
+                method: 'POST'
+            })
 
-                if (response.status !== 200) {
-                    return {
-                        errorType: this.classifyApiError(response),
-                        errorCode: response.status,
-                        errorMessage: response.json.error!.message
-                    }
+            if (response.status !== 200) {
+                return {
+                    errorType: this.classifyApiError(response),
+                    error: response.json.error
                 }
-
-                const translations = response.json.data?.translations;
-                if (!translations) {
-                    return {errorType: ErrorType.OTHER_ERROR}
-                }
-
-                result.detectedLanguage ??= translations[0].detectedSourceLanguage;
-                (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.translatedText));
             }
 
-            return result;
+            const translations = response.json.data?.translations;
+            if (!translations) {
+                return {errorType: ErrorType.OTHER_ERROR}
+            }
 
-        } catch (error) {
-            return { errorType: ErrorType.OTHER_ERROR, error: error };
+            result.detectedLanguage ??= translations[0].detectedSourceLanguage;
+            (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.translatedText));
         }
+
+        return result;
     }
 
     private classifyApiError(response: RequestUrlResponse): ErrorType {
         if (response.status == 403) {
             return ErrorType.AUTH_PROBLEM;
         }
-        else if (response.status == 400 && response.json.error.message.contains('API key not valid')) {
+        else if (response.status == 400 && response.json.error.message?.contains('API key not valid')) {
             return ErrorType.AUTH_BAD_KEY;
         }
-        else if (response.status == 400 && response.json.error.message.contains('Invalid Value') && response.json.error.details[0]?.fieldViolations[0]?.field == 'target') {
+        else if (response.status == 400 && response.json.error.message?.contains('Invalid Value') && response.json.error.details[0]?.fieldViolations[0]?.field == 'target') {
             return ErrorType.INVALID_LANGUAGES;
         }
         else if ([500, 503].includes(response.status)) {

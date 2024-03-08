@@ -1,6 +1,6 @@
 import { Plugin, Editor, MarkdownView, TFile, Notice, Menu, moment } from 'obsidian';
 import { MultilingualSettings, MultilingualSettingTab, DEFAULT_SETTINGS, translatorsMap } from './settings'
-import { Translator } from './translator';
+import { TranslationsResult, Translator } from './translator';
 import { error, log } from 'console';
 import { untitledIn } from './l10n/elements';
 import * as defaultStrings from './l10n/en.json';
@@ -118,14 +118,20 @@ export default class MultilingualPlugin extends Plugin {
 			return;
 		}
 
-		const translationsResult = await this.translator.translate(file.basename, this.settings.targetLanguages);
+		let translationsResult: TranslationsResult;
+		try {
+			translationsResult = await this.translator.translate(file.basename, this.settings.targetLanguages);
+		} catch (error) {
+			// API errors should be recognised and treated in the Translator, this is in case an un-handled error pops up
+			new Notice(this.strings.notices.translation_errors.OTHER_ERROR);
+			console.error("Unrecognised error during translation: " + error);
+			return;
+		}
 
 		if (translationsResult.errorType) {
 			new Notice(this.strings.notices.translation_errors[translationsResult.errorType]);
 			if (translationsResult.error) {
 				console.error("Error during translation: ", translationsResult.error);
-			} else if (translationsResult.errorMessage) {
-				console.error("Error during translation: ", translationsResult.errorMessage);
 			}
 			return;
 			// maybe later implement another logic where errors on some translations can keep other successful
