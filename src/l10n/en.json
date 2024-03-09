@@ -1,8 +1,8 @@
 {
     "notices": {
         "success": {
-            "TRANSLATIONS_ADDED": "New title translations added to aliases.",
-            "No_TRANSLATIONS_ADDED": "No new title treanslations added."
+            "TRANSLATIONS_ADDED": "Title translated to your languages. Feel free to check & adjust the aliases.",
+            "No_TRANSLATIONS_ADDED": "Title already available in all your languages."
         },
 
         "errors" : {
@@ -23,28 +23,28 @@
     },
 
     "menus": {
-        "COMMAND_ACTION": "Translate page title into aliases",
-        "EDITOR_MENU_ACTION": "Add title translation to aliases"
+        "COMMAND_ACTION": "Translate page title",
+        "EDITOR_MENU_ACTION": "Translate page title"
     },
 
     "settings": {
         "H3_GENERAL": "General",
-        "TARGET_LANGS_FIELD_NAME": "Target languages",
-        "TARGET_LANGS_FIELD_DESC": "Comma-separated list of language codes (e.g.: \"fr, it\")",
+        "TARGET_LANGS_FIELD_NAME": "Your languages",
+        "TARGET_LANGS_FIELD_DESC": "Note titles will be translated to these languages and added to aliases, so that you can link/reference notes in all your languages. (e.g.: \"fr, it\")",
         "AUTO_TRANSLATE_TOGGLE_NAME": "Auto translate",
-        "AUTO_TRANSLATE_TOGGLE_DESC": "Enable to automatically add translations of the note title when you create a new note or change the title of an existing one",
+        "AUTO_TRANSLATE_TOGGLE_DESC": "Enable to automatically translate the title when you create a new note or rename an existing one. Alternatively, you can always translate the title via command or right-click menu.",
         "H3_TRANSLATOR": "Translation service",
         "TRANSLATOR_SELECTOR_NAME": "Translation service",
-        "TRANSLATOR_SELECTOR_DESC": "Google Translate is more widely used and supports more languages, DeepL is great and easier to set up.",
+        "TRANSLATOR_SELECTOR_DESC": "Google Translate is widely used and supports more languages, DeepL is great and easier to set up.",
         "API_KEY_FIELD_NAME": "${translator} API key (mandatory)",
         "API_KEY_FIELD_DESC": "Create a ${translator} API key and paste it here. This is mandatory for the plugin to work. (The API key is stored in the Obsidian config files in your Obsidian valut location.)",
         "H3_ADVANCED": "Advanced",
         "DATE_FORMAT_FIELD_NAME": "Date format to ignore",
-        "DATE_FORMAT_FIELD_DESC": "When auto translate is on, titles matching this date format won't be translated. Can be useful for for daily notes. Default: YYYY-MM-DD.",
+        "DATE_FORMAT_FIELD_DESC": "Titles matching this date format won't be auto-translated. Can be useful for for daily notes. Default: YYYY-MM-DD.",
         "IGNORE_REGEX_FIELD_NAME": "Custom regex to ignore",
-        "IGNORE_REGEX_FIELD_DESC": "When auto translate is on, titles matching this custom regex won't be translated.",
+        "IGNORE_REGEX_FIELD_DESC": "Titles matching this custom regex won't be auto-translated.",
         "IGNORE_PATH_FIELD_NAME": "Custom path to ignore",
-        "IGNORE_PATH_FIELD_DESC": "When auto translate is on, titles of notes in this path and subfolders won't be translated.",
+        "IGNORE_PATH_FIELD_DESC": "Titles of notes in this folder and its subfolders won't be auto-translated.",
         "IGNORE_PATH_FIELD_PLACEHOLDER": "e.g.: NASA/Apollo 15/LRV",
         "ADD_ORIGINAL_TITLE_NAME": "Add original title to aliases",
         "ADD_ORIGINAL_TITLE_DESC": "This can make inserting links/references faster for languages with declensions (like German, Russian, Latin (oh my), etc.)"

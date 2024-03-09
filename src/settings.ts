@@ -75,8 +75,6 @@ export class MultilingualSettingTab extends PluginSettingTab {
                     this.plugin.saveSettings();
                 }));
 
-        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_TRANSLATOR });
-
         new Setting(containerEl)
             .setName(this.plugin.strings.settings.TRANSLATOR_SELECTOR_NAME)
             .setDesc(this.plugin.strings.settings.TRANSLATOR_SELECTOR_DESC)
