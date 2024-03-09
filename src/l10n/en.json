@@ -45,6 +45,8 @@
         "IGNORE_REGEX_FIELD_DESC": "When auto translate is on, titles matching this custom regex won't be translated.",
         "IGNORE_PATH_FIELD_NAME": "Custom path to ignore",
         "IGNORE_PATH_FIELD_DESC": "When auto translate is on, titles of notes in this path and subfolders won't be translated.",
-        "IGNORE_PATH_FIELD_PLACEHOLDER": "e.g.: NASA/Apollo 15/LRV"
+        "IGNORE_PATH_FIELD_PLACEHOLDER": "e.g.: NASA/Apollo 15/LRV",
+        "ADD_ORIGINAL_TITLE_NAME": "Add original title to aliases",
+        "ADD_ORIGINAL_TITLE_DESC": "This can make inserting links/references faster for languages with declensions (like German, Russian, Latin (oh my), etc.)"
     }
 }

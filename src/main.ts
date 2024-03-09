@@ -140,13 +140,17 @@ export default class MultilingualPlugin extends Plugin {
 			.filter(([langCode]) => langCode !== translationsResult.detectedLanguage)
 			.map(([, variants]) => variants[0]); 
 		
-		this.addAliases(file, translationsToAdd);
+		this.addAliases(file, translationsToAdd, this.settings.addOriginalTitle);
     }
 
-	async addAliases(file: TFile, aliases: string[]) {
+	async addAliases(file: TFile, aliases: string[], includeTitle: boolean = false) {
 		await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
 			if (typeof(frontmatter) == 'object'){
-				aliases.remove(file.basename);  // not to duplicate the title in the aliases, if the tranlsation(s) are identic to the title
+				if (includeTitle) {
+					aliases.push(file.basename);
+				} else {
+					aliases.remove(file.basename);  // not to duplicate the title in the aliases, if any tranlsation(s) are identic to the title
+				}
 				const currentAliases = frontmatter.aliases || []; // gets current aliases or creates the new list
 				const newAliases = [...new Set(currentAliases.concat(aliases))]; // adds new aliases and removes potential duplicates 
 

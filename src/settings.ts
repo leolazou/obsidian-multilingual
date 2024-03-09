@@ -17,6 +17,7 @@ export interface MultilingualSettings {
     dateFormat: string;
     ignoreRegex: string;
     ignorePath: string;
+    addOriginalTitle: boolean;
     translatorName: TranslatorName;
     apiKeys: {[key in TranslatorName]: string};
 }
@@ -27,6 +28,7 @@ export const DEFAULT_SETTINGS: MultilingualSettings = {
     dateFormat: '',
     ignoreRegex: '',
     ignorePath: '',
+    addOriginalTitle: false,
     translatorName: 'Google Translate',
     apiKeys: {
         'Google Translate': '',
@@ -124,6 +126,16 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.ignorePath)
                 .onChange((value: string) => {
                     this.plugin.settings.ignorePath = value;
+                    this.plugin.saveSettings();
+                }));
+
+        new Setting(containerEl)
+            .setName(this.plugin.strings.settings.ADD_ORIGINAL_TITLE_NAME)
+            .setDesc(this.plugin.strings.settings.ADD_ORIGINAL_TITLE_DESC)
+            .addToggle(toggle => toggle
+                .setValue(this.plugin.settings.addOriginalTitle)
+                .onChange((value: boolean) => {
+                    this.plugin.settings.addOriginalTitle = value;
                     this.plugin.saveSettings();
                 }));
 	}
