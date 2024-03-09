@@ -53,7 +53,14 @@ export class MultilingualSettingTab extends PluginSettingTab {
 		
 		new Setting(containerEl)
             .setName(this.plugin.strings.settings.TARGET_LANGS_FIELD_NAME)
-            .setDesc(this.plugin.strings.settings.TARGET_LANGS_FIELD_DESC)
+            .setDesc(createFragment((desc) => {
+                desc.append(this.plugin.strings.settings.TARGET_LANGS_FIELD_DESC);
+                desc.createEl('br');
+                desc.append("Available languages: ");
+                desc.createEl('a', { 'text': "Google Translate", 'href': "https://cloud.google.com/translate/docs/languages" });
+                desc.append(" / ");
+                desc.createEl('a', { 'text': "DeepL", 'href': "https://www.deepl.com/docs-api/translate-text/translate-text" });
+            }))
             .addText(text => text
                 .setPlaceholder('fr, it, ...')
                 .setValue(this.plugin.settings.targetLanguages.join(', '))
