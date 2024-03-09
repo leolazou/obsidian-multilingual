@@ -70,6 +70,8 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .onChange((value: boolean) => {
                     this.plugin.settings.autoTranslate = value;
                     dateFormatField.setDisabled(!value);
+                    ignoreRegexField.setDisabled(!value);
+                    ignorePathField.setDisabled(!value);
                     this.plugin.saveSettings();
                 }));
 
