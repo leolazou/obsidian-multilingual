@@ -87,23 +87,13 @@ export default class MultilingualPlugin extends Plugin {
 	}
 
 	private isToBeAutoTranslated(title: string, path: string): boolean {
-		if (this.settings.ignorePath && path.startsWith(this.settings.ignorePath)) {
-			// if path begins with defined ignore path, do not translate
-			return false;
-		} else if (/^[0-9\.\,\'\+\-\_\&\@\%\~\$\(\) ]+$/.test(title)) {
-			// if only composed of numbers and special chars, do not translate
-			return false;
-		} else if ((new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title)) {
-			// if default titlename like "Untitled 3", respecting the locale, do not auto-translate
-			return false;
-		} else if (this.settings.dateFormat && moment(title, this.settings.dateFormat, true).isValid()) {
-			// if corresponds to the defined date format, do not translate
-			return false;
-		} else if (this.settings.ignoreRegex && (new RegExp(this.settings.ignoreRegex)).test(title)) {
-			// if matches a custom user Regex to be ignored, do not translate
-			return false;
-		}
-		return true;
+		const isUnderPathToIgnore:boolean = !!this.settings.ignorePath && path.startsWith(this.settings.ignorePath);
+		const isNumbersOnly:boolean = /^[0-9\.\,\'\+\-\_\&\@\%\~\$\(\) ]+$/.test(title);  // matches default date format YYYY-MM-DD among others
+		const isUntitled:boolean = (new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title);  // "Untitled [N]" in English, "Sans titre [N]" in French, ...
+		const matchesDatesToIgnore:boolean = !!this.settings.dateFormat && moment(title, this.settings.dateFormat, true).isValid();
+		const matchesRegexToIgnore:boolean = !!this.settings.ignoreRegex && (new RegExp(this.settings.ignoreRegex)).test(title);
+		
+		return !(isUnderPathToIgnore || isNumbersOnly || isUntitled || matchesDatesToIgnore || matchesRegexToIgnore); 
 	}
 
 	async autoTranslateTitle(file: TFile) {
