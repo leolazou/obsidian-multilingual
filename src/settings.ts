@@ -14,7 +14,7 @@ export const translatorsMap: { [key in TranslatorName]: any } = {
 export interface MultilingualSettings {
 	targetLanguages: string[];
     autoTranslate: boolean;
-    dateFormat: string;
+    ignoreDateFormat: string;
     ignoreRegex: string;
     ignorePath: string;
     addOriginalTitle: boolean;
@@ -28,7 +28,7 @@ export interface MultilingualSettings {
 export const DEFAULT_SETTINGS: MultilingualSettings = {
     targetLanguages: [],
     autoTranslate: true,
-    dateFormat: '',
+    ignoreDateFormat: '',
     ignoreRegex: '',
     ignorePath: '',
     addOriginalTitle: false,
@@ -83,7 +83,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.autoTranslate)
                 .onChange((value: boolean) => {
                     this.plugin.settings.autoTranslate = value;
-                    dateFormatField.setDisabled(!value);
+                    ignoreDateFormatField.setDisabled(!value);
                     ignoreRegexField.setDisabled(!value);
                     ignorePathField.setDisabled(!value);
                     this.plugin.saveSettings();
@@ -108,15 +108,15 @@ export class MultilingualSettingTab extends PluginSettingTab {
 
         containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_ADVANCED})
 
-        const dateFormatField = new Setting(containerEl)
-            .setName(this.plugin.strings.settings.DATE_FORMAT_FIELD_NAME)
-            .setDesc(this.plugin.strings.settings.DATE_FORMAT_FIELD_DESC)
+        const ignoreDateFormatField = new Setting(containerEl)
+            .setName(this.plugin.strings.settings.IGNORE_DATE_FORMAT_FIELD_NAME)
+            .setDesc(this.plugin.strings.settings.IGNORE_DATE_FORMAT_FIELD_DESC)
             .addText(text => text
                 .setDisabled(!this.plugin.settings.autoTranslate)
                 .setPlaceholder('YYYY-MM-DD')
-                .setValue(this.plugin.settings.dateFormat)
+                .setValue(this.plugin.settings.ignoreDateFormat)
                 .onChange((value: string) => {
-                    this.plugin.settings.dateFormat = value;
+                    this.plugin.settings.ignoreDateFormat = value;
                     this.plugin.saveSettings();
                 }));
 
