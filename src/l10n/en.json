@@ -32,7 +32,7 @@
         "TARGET_LANGS_FIELD_NAME": "Your languages",
         "TARGET_LANGS_FIELD_DESC": "Note titles will be translated to these languages and added to aliases, so that you can link/reference notes in all your languages. (e.g.: \"fr, it\")",
         "AUTO_TRANSLATE_TOGGLE_NAME": "Auto translate",
-        "AUTO_TRANSLATE_TOGGLE_DESC": "Enable to automatically translate the title when you create a new note or rename an existing one. Alternatively, you can always translate the title via command or right-click menu.",
+        "AUTO_TRANSLATE_TOGGLE_DESC": "Whether to automatically translate the title every time you create or rename a note. (You can always trigger manual translation via command or right-click menu.)",
         "H3_TRANSLATOR": "Translation service",
         "TRANSLATOR_SELECTOR_NAME": "Translation service",
         "TRANSLATOR_SELECTOR_DESC": "Google Translate is widely used and supports more languages, DeepL is great and easier to set up.",

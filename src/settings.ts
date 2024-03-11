@@ -27,7 +27,7 @@ export interface MultilingualSettings {
 
 export const DEFAULT_SETTINGS: MultilingualSettings = {
     targetLanguages: [],
-    autoTranslate: false,
+    autoTranslate: true,
     dateFormat: '',
     ignoreRegex: '',
     ignorePath: '',
