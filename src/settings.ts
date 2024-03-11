@@ -20,6 +20,9 @@ export interface MultilingualSettings {
     addOriginalTitle: boolean;
     translatorName: TranslatorName;
     apiKeys: {[key in TranslatorName]: string};
+    // not controlled by user:
+    firstUse: boolean;
+    setupComplete: boolean;
 }
 
 export const DEFAULT_SETTINGS: MultilingualSettings = {
@@ -33,7 +36,10 @@ export const DEFAULT_SETTINGS: MultilingualSettings = {
     apiKeys: {
         'Google Translate': '',
         'DeepL': ''
-    }
+    },
+    // not controlled by user:
+    firstUse: true,
+    setupComplete: false
 }
 
 export class MultilingualSettingTab extends PluginSettingTab {
@@ -66,6 +72,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.targetLanguages.join(', '))
                 .onChange(async (value) => {
                     this.plugin.settings.targetLanguages = value ? value.split(',').map(lang => lang.trim()) : [];
+                    this.checkSetupComplete();
                     await this.plugin.saveSettings();
                 }));
 
@@ -157,7 +164,14 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setPlaceholder(this.plugin.settings.apiKeys ? `*** *** *** ${this.plugin.settings.apiKeys[this.plugin.settings.translatorName].slice(-4)}` : 'YOUR_API_KEY')  // showing *** *** *** ABCD
                 .onChange(async (value) => {
                     this.plugin.settings.apiKeys[this.plugin.settings.translatorName] = value;
+                    this.checkSetupComplete();
                     await this.plugin.saveSettings();
                 }));
+    }
+
+    private checkSetupComplete() {
+        this.plugin.settings.setupComplete = 
+            this.plugin.settings.targetLanguages.length > 0 &&
+            this.plugin.settings.apiKeys[this.plugin.settings.translatorName].length > 0;
     }
 }

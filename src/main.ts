@@ -17,15 +17,15 @@ export default class MultilingualPlugin extends Plugin {
 		this.loadLocale();
 		this.loadTranslator();
 
+		// Adds a settings tab
+		this.addSettingTab(new MultilingualSettingTab(this.app, this));
+
 		// Automatically translates title when a note is created if the setting is enabled.
 		this.app.workspace.onLayoutReady(() => {
 			this.registerEvent (
 				this.app.vault.on('create', (file: TFile) => {
-					if (this.settings.autoTranslate &&
-						file.name &&
-						this.isToBeAutoTranslated(file.basename, file.path)
-					) {
-						this.translateTitle(file);
+					if (this.settings.autoTranslate) {
+						this.autoTranslateTitle(file);
 					}
 				})
 			)
@@ -35,10 +35,9 @@ export default class MultilingualPlugin extends Plugin {
 		this.registerEvent(
 			this.app.vault.on('rename', (file: TFile, oldPath: string) => {
 				if (this.settings.autoTranslate &&
-					!oldPath.includes(file.name) &&  // not when file is simply moved to a new folder
-					this.isToBeAutoTranslated(file.basename, file.path)
+					!oldPath.includes(file.name)  // not when file is simply moved to a new folder
 				) {
-					this.translateTitle(file);
+					this.autoTranslateTitle(file);
 				}
 			})
 		)
@@ -73,9 +72,6 @@ export default class MultilingualPlugin extends Plugin {
 			},
 		});
 
-		// Adds a settings tab
-		this.addSettingTab(new MultilingualSettingTab(this.app, this));
-
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
@@ -108,6 +104,17 @@ export default class MultilingualPlugin extends Plugin {
 			return false;
 		}
 		return true;
+	}
+
+	async autoTranslateTitle(file: TFile) {
+		if (
+			this.isToBeAutoTranslated(file.basename, file.path) &&
+			this.settings.setupComplete
+		) {
+			this.translateTitle(file);
+		}
+		// no auto-translation and unnecessary errors while the user hasn't yet set up the necessary (notably API keys).
+		// maybe show a warning once in a while in case of incomplete setup tho?
 	}
 
 	async translateTitle(file: TFile) {
