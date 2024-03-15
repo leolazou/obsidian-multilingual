@@ -108,6 +108,16 @@ export class MultilingualSettingTab extends PluginSettingTab {
 
         containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_ADVANCED})
 
+        new Setting(containerEl)
+            .setName(this.plugin.strings.settings.ADD_ORIGINAL_TITLE_NAME)
+            .setDesc(this.plugin.strings.settings.ADD_ORIGINAL_TITLE_DESC)
+            .addToggle(toggle => toggle
+                .setValue(this.plugin.settings.addOriginalTitle)
+                .onChange((value: boolean) => {
+                    this.plugin.settings.addOriginalTitle = value;
+                    this.plugin.saveSettings();
+                }));
+
         const ignoreDateFormatField = new Setting(containerEl)
             .setName(this.plugin.strings.settings.IGNORE_DATE_FORMAT_FIELD_NAME)
             .setDesc(this.plugin.strings.settings.IGNORE_DATE_FORMAT_FIELD_DESC)
@@ -140,16 +150,6 @@ export class MultilingualSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.ignorePath)
                 .onChange((value: string) => {
                     this.plugin.settings.ignorePath = value;
-                    this.plugin.saveSettings();
-                }));
-
-        new Setting(containerEl)
-            .setName(this.plugin.strings.settings.ADD_ORIGINAL_TITLE_NAME)
-            .setDesc(this.plugin.strings.settings.ADD_ORIGINAL_TITLE_DESC)
-            .addToggle(toggle => toggle
-                .setValue(this.plugin.settings.addOriginalTitle)
-                .onChange((value: boolean) => {
-                    this.plugin.settings.addOriginalTitle = value;
                     this.plugin.saveSettings();
                 }));
 	}
