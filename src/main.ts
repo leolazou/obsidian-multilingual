@@ -163,7 +163,8 @@ export default class MultilingualPlugin extends Plugin {
 
 				if (newAliases.length > currentAliases.length) {
 					frontmatter.aliases = newAliases;
-					new Notice(this.strings.notices.success.TRANSLATIONS_ADDED);
+					new Notice(`${aliases.join('\n')}\n\n${this.strings.notices.success.TRANSLATIONS_ADDED}`)
+					// new Notice(`${this.strings.notices.success.TRANSLATIONS_ADDED}\n${aliases.join('\n')}`);
 				} else {
 					new Notice(this.strings.notices.success.No_TRANSLATIONS_ADDED);
 					// TODO more granular messages depending on various cases

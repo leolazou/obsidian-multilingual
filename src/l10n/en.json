@@ -1,7 +1,7 @@
 {
     "notices": {
         "success": {
-            "TRANSLATIONS_ADDED": "Title translated to your languages. Feel free to check & adjust the aliases.",
+            "TRANSLATIONS_ADDED": "(You can edit these aliases in properties)",
             "No_TRANSLATIONS_ADDED": "Title already available in all your languages."
         },
 
