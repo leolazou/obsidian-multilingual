@@ -24,7 +24,8 @@
 
     "menus": {
         "COMMAND_ACTION": "Translate page title",
-        "EDITOR_MENU_ACTION": "Translate page title"
+        "RIBBON_ICON_ACTION": "Multilingual title",
+        "EDITOR_MENU_ACTION": "Multilingual title"
     },
 
     "settings": {

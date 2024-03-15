@@ -72,6 +72,16 @@ export default class MultilingualPlugin extends Plugin {
 			},
 		});
 
+		// Ribbon icon that triggers translation of the title of the current file.
+		this.addRibbonIcon('languages', this.strings.menus.RIBBON_ICON_ACTION, (evt: MouseEvent) => {
+			const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+            if (view && view.file) {
+				this.translateTitle(view.file);
+            } else {
+				// a notice would be too annoying
+			}
+		});
+
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
