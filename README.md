@@ -67,7 +67,7 @@ The text (page titles) the user will translate using this plugin - both manually
 & [Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice)
 - DeepL: [Privacy Policy](https://www.deepl.com/en/privacy), notably section 12 about DeepL API Free.
 
-Obsidian Multilingual is not officialy affiliated with any of the translation services the APIs of which it implements.
+Obsidian Multilingual is not officialy affiliated with any of the translation services mentioned above.
 
 
 
