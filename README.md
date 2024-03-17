@@ -1,7 +1,7 @@
 <h1 align=center>Obsidian Multilingual</h1>
 <p align=center>
     Simplifies <a href=https://obsidian.md>Obsidian</a>'s powerful linking for multilingual users.
-    This plugin automatically translates notes' titles into multiple languages and allows you to easily link your notes across all the languages you use.
+    This plugin automatically translates notes' names into multiple languages and allows you to easily link your notes across all the languages you use.
 </p>
 
 
@@ -18,8 +18,8 @@ Many users of Obsidian use more than one language in their everyday life, but th
 
 
 ## Features 🪄
-- 👍 Translate notes' titles into desired languages. Translations are added to the aliases, which allows you to link your notes in all of the languages you use.
-- 👍 Automatic translation of the title when you create a new note or rename an existing one.
+- 👍 Translate notes' names into desired languages. Translations are added to the aliases, which allows you to link your notes in all of the languages you use.
+- 👍 Automatic translation of the names when you create a new note or rename an existing one.
 - 🛠️ You can specify a folder, regex and date format to be ignored from automatic translation. YYYY-MM-DD are never automatically translated.
 - 💡 The plugin leverages Obsidian aliases, so that all links remain functional even if the plugin uninstalled.
 
@@ -33,7 +33,7 @@ Many users of Obsidian use more than one language in their everyday life, but th
 2. Go to the plugin settings in Settings > Multilingual
 3. List the languages you use for writing in Obsidian
 4. create an API key for the translation service of your choice and paste it in the specified field. How-to links below.
-5. Translate note titles with the ribbon icon, command or riight-click menu.
+5. Translate note name with the ribbon icon, command or riight-click menu.
 6. Or just notice translations added automatically when you create and rename notes with "Auto translate" (ON by default).
 7. (Advanced) You can specify a folder, regex and date format to be ignored from automatic translation. YYYY-MM-DD are never automatically translated.
 
@@ -50,7 +50,7 @@ You can choose between:
 Both are free to use for up to 500,000 characters per month, which is usually a lot higher than what you might require for using this plugin, even with a heavy use of Obsidian.
 <details>
     <summary>Example</summary>
-    If you name your notes in English and translate the titles into 2 more languages, you'll need to create approximately 10,000 notes per month to reach the free limit. Sounds like a challenge?
+    If you name your notes in English and translate the note names into 2 more languages, you'll need to create approximately 10,000 notes per month to reach the free limit. Sounds like a challenge?
 </details>
 
 #### Quick Comparison
@@ -67,7 +67,7 @@ Both are free to use for up to 500,000 characters per month, which is usually a 
 
 
 ## Privacy & Legal 🕵️
-The text (page titles) the user will translate using this plugin - both manually and automatically when "Auto translate" is ON - will be sent to Google / DeepL for translation. Refer to:
+The text (note names) the user will translate using this plugin - both manually and automatically when "Auto translate" is ON - will be sent to Google / DeepL for translation. Refer to:
 - Google Cloud Translation:
 [Data Usage FAQ](https://cloud.google.com/translate/data-usage)
 & [Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice)
