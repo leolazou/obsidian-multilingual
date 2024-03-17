@@ -1,7 +1,7 @@
 <h1 align=center>Obsidian Multilingual</h1>
 <p align=center>
     Simplifies <a href=https://obsidian.md>Obsidian</a>'s powerful linking for multilingual users.
-    This plugin automatically translates notes' names into multiple languages and allows you to easily link your notes across all the languages you use.
+    This plugin automatically translates note names into multiple languages and allows you to easily link your notes across all the languages you use.
 </p>
 
 
@@ -18,7 +18,7 @@ Many users of Obsidian use more than one language in their everyday life, but th
 
 
 ## Features 🪄
-- 👍 Translate notes' names into desired languages. Translations are added to the aliases, which allows you to link your notes in all of the languages you use.
+- 👍 Translate note names into desired languages. Translations are added to the aliases, which allows you to link your notes in all of the languages you use.
 - 👍 Automatic translation of the names when you create a new note or rename an existing one.
 - 🛠️ You can specify a folder, regex and date format to be ignored from automatic translation. YYYY-MM-DD are never automatically translated.
 - 💡 The plugin leverages Obsidian aliases, so that all links remain functional even if the plugin uninstalled.
