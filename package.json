@@ -1,7 +1,7 @@
 {
 	"name": "obsidian-multilingual",
-	"version": "0.1.0",
-	"description": "A plugin that automatically translates page titles to allow easy linking in many languages.",
+	"version": "1.0.0",
+	"description": "A plugin for Obsidian that automatically translates note names to ease linking across many languages.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
