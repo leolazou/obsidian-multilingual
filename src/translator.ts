@@ -43,7 +43,7 @@ export abstract class Translator implements Translator {
     ): ErrorType | undefined {
         if (!navigator.onLine) {
             return ErrorType.OFFLINE; // no internet connection
-        } else if (!this.settings.apiKeys[this.settings.translatorName]) {
+        } else if (!this.settings.apiKeys[this.settings.translationService]) {
             return ErrorType.AUTH_NO_KEY;
         } else if (targetLanguages.length === 0) {
             return ErrorType.NO_LANGUAGES;

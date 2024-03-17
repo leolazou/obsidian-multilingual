@@ -4,9 +4,9 @@ import { GoogleTranslator } from './google-translator';
 import { DeepLTranslator } from './deepl-translator';
 import { strFormat } from './helpers';
 
-type TranslatorName = 'Google Translate' | 'DeepL';
+type TranslationServiceName = 'Google Translate' | 'DeepL';
 
-export const translatorsMap: { [key in TranslatorName]: any } = {
+export const translatorsMap: { [key in TranslationServiceName]: any } = {
     'Google Translate': GoogleTranslator,
     'DeepL': DeepLTranslator
 }
@@ -18,8 +18,8 @@ export interface MultilingualSettings {
     ignoreRegex: string;
     ignorePath: string;
     addOriginalName: boolean;
-    translatorName: TranslatorName;
-    apiKeys: {[key in TranslatorName]: string};
+    translationService: TranslationServiceName;
+    apiKeys: {[key in TranslationServiceName]: string};
     // not controlled by user:
     firstUse: boolean;
     setupComplete: boolean;
@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS: MultilingualSettings = {
     ignoreRegex: '',
     ignorePath: '',
     addOriginalName: false,
-    translatorName: 'Google Translate',
+    translationService: 'Google Translate',
     apiKeys: {
         'Google Translate': '',
         'DeepL': ''
@@ -95,9 +95,9 @@ export class MultilingualSettingTab extends PluginSettingTab {
             .addDropdown(dropdown => dropdown
                 .addOption('Google Translate', 'Google Translate')
                 .addOption('DeepL', 'DeepL')
-                .setValue(this.plugin.settings.translatorName)
-                .onChange(async (value: TranslatorName) => {
-                    this.plugin.settings.translatorName = value;
+                .setValue(this.plugin.settings.translationService)
+                .onChange(async (value: TranslationServiceName) => {
+                    this.plugin.settings.translationService = value;
                     this.plugin.loadTranslator();  // re-instanciates the translator in the main.ts to reflect the change
                     this.updateApiKeySetting(apiKeySetting);
                     await this.plugin.saveSettings();
@@ -158,12 +158,12 @@ export class MultilingualSettingTab extends PluginSettingTab {
     private updateApiKeySetting(apiKeySetting: Setting) {
         apiKeySetting
             .clear()
-            .setName(strFormat(this.plugin.strings.settings.API_KEY_FIELD_NAME, {translator: this.plugin.settings.translatorName}))
-            .setDesc(strFormat(this.plugin.strings.settings.API_KEY_FIELD_DESC, {translator: this.plugin.settings.translatorName}))
+            .setName(strFormat(this.plugin.strings.settings.API_KEY_FIELD_NAME, {translator: this.plugin.settings.translationService}))
+            .setDesc(strFormat(this.plugin.strings.settings.API_KEY_FIELD_DESC, {translator: this.plugin.settings.translationService}))
             .addText(text => text
-                .setPlaceholder(this.plugin.settings.apiKeys ? `*** *** *** ${this.plugin.settings.apiKeys[this.plugin.settings.translatorName].slice(-4)}` : 'YOUR_API_KEY')  // showing *** *** *** ABCD
+                .setPlaceholder(this.plugin.settings.apiKeys ? `*** *** *** ${this.plugin.settings.apiKeys[this.plugin.settings.translationService].slice(-4)}` : 'YOUR_API_KEY')  // showing *** *** *** ABCD
                 .onChange(async (value) => {
-                    this.plugin.settings.apiKeys[this.plugin.settings.translatorName] = value;
+                    this.plugin.settings.apiKeys[this.plugin.settings.translationService] = value;
                     this.checkSetupComplete();
                     await this.plugin.saveSettings();
                 }));
@@ -172,6 +172,6 @@ export class MultilingualSettingTab extends PluginSettingTab {
     private checkSetupComplete() {
         this.plugin.settings.setupComplete = 
             this.plugin.settings.targetLanguages.length > 0 &&
-            this.plugin.settings.apiKeys[this.plugin.settings.translatorName].length > 0;
+            this.plugin.settings.apiKeys[this.plugin.settings.translationService].length > 0;
     }
 }

@@ -188,7 +188,7 @@ export default class MultilingualPlugin extends Plugin {
 
 	// instanciates a Translator, based on the settings
 	public loadTranslator() {
-		this.translator = new translatorsMap[this.settings.translatorName](this.settings);
+		this.translator = new translatorsMap[this.settings.translationService](this.settings);
 	}
 
 	async loadSettings() {
