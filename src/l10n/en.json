@@ -2,52 +2,52 @@
     "notices": {
         "success": {
             "TRANSLATIONS_ADDED": "(You can edit these aliases in properties)",
-            "No_TRANSLATIONS_ADDED": "Title already available in all your languages."
+            "No_TRANSLATIONS_ADDED": "Note name already available in all your languages."
         },
 
         "errors" : {
-            "NOT_A_FILE": "Cannot translate the title of nothing, because nothing doesn't have anything, notably no title."
+            "NOT_A_FILE": "Cannot translate the name of nothing, because nothing doesn't have anything, notably no name."
         },
 
         "translation_errors" : {
-            "OFFLINE": "Title not translated! ❌ You seem to be offline 🏕️",
-            "NO_LANGUAGES": "Title not translated! ❌ Please choose at least one language in the plugin settings 🔧",
-            "INVALID_LANGUAGES": "Title not translated! ❌ One of the languages you requested is not valid, please check in settings 😬",
-            "AUTH_NO_KEY": "Title not translated! ❌ Please provide an API key in Settings 🔑",
-            "AUTH_BAD_KEY": "Title not translated! ❌ Check your API key, it seems not valid 🔑",
-            "AUTH_PROBLEM": "Title not translated! ❌ Authentication problem, check your API key 👾",
-            "FREE_LIMITS_REACHED": "Title not translated! ❌ Free usage limits reached, please check you API key account 😱",
-            "SERVICE_UNAVAILABLE": "Title not translated! ❌ Service unavailable, try again later 🕙",
-            "OTHER_ERROR": "Title not translated! ❌ Some weird error during translation 🤯"
+            "OFFLINE": "Note name not translated! ❌ You seem to be offline 🏕️",
+            "NO_LANGUAGES": "Note name not translated! ❌ Please choose at least one language in the plugin settings 🔧",
+            "INVALID_LANGUAGES": "Note name not translated! ❌ One of the languages you requested is not valid, please check in settings 😬",
+            "AUTH_NO_KEY": "Note name not translated! ❌ Please provide an API key in Settings 🔑",
+            "AUTH_BAD_KEY": "Note name not translated! ❌ Check your API key, it seems not valid 🔑",
+            "AUTH_PROBLEM": "Note name not translated! ❌ Authentication problem, check your API key 👾",
+            "FREE_LIMITS_REACHED": "Note name not translated! ❌ Free usage limits reached, please check you API key account 😱",
+            "SERVICE_UNAVAILABLE": "Note name not translated! ❌ Service unavailable, try again later 🕙",
+            "OTHER_ERROR": "Note name not translated! ❌ Some weird error during translation 🤯"
         }
     },
 
     "menus": {
-        "COMMAND_ACTION": "Translate page title",
-        "RIBBON_ICON_ACTION": "Multilingual title",
-        "EDITOR_MENU_ACTION": "Multilingual title"
+        "COMMAND_ACTION": "Translate note name",
+        "RIBBON_ICON_ACTION": "Multilingual note name",
+        "EDITOR_MENU_ACTION": "Multilingual note name"
     },
 
     "settings": {
         "H3_GENERAL": "General",
         "TARGET_LANGS_FIELD_NAME": "Your languages",
-        "TARGET_LANGS_FIELD_DESC": "Note titles will be translated to these languages and added to aliases, so that you can link your notes in all your languages. (e.g.: \"fr, it\")",
+        "TARGET_LANGS_FIELD_DESC": "Note names will be translated to these languages and added to aliases, so that you can link your notes in all your languages. (e.g.: \"fr, it\")",
         "AUTO_TRANSLATE_TOGGLE_NAME": "Auto translate",
-        "AUTO_TRANSLATE_TOGGLE_DESC": "Whether to automatically translate the title every time you create or rename a note. (Translation is always available via command, ribbon or right-click menu.)",
+        "AUTO_TRANSLATE_TOGGLE_DESC": "Whether to automatically translate the name every time you create or rename a note. (Translation is always available via command, ribbon or right-click menu.)",
         "H3_TRANSLATOR": "Translation service",
         "TRANSLATOR_SELECTOR_NAME": "Translation service",
         "TRANSLATOR_SELECTOR_DESC": "Google Translate is widely used and supports more languages, DeepL is great and easier to set up.",
         "API_KEY_FIELD_NAME": "${translator} API key (mandatory)",
         "API_KEY_FIELD_DESC": "Paste your ${translator} API key here, this is mandatory for the plugin to work. (The API key is stored somewhere in the config files of your Obsidian vault.)",
         "H3_ADVANCED": "Advanced",
-        "ADD_ORIGINAL_TITLE_NAME": "Add original title to aliases",
+        "ADD_ORIGINAL_TITLE_NAME": "Add original name to aliases",
         "ADD_ORIGINAL_TITLE_DESC": "This can make inserting links faster for languages with declensions (German, Russian, Latin (oh my), ...), but you may also find other use-cases.",
         "IGNORE_DATE_FORMAT_FIELD_NAME": "Date format to ignore",
-        "IGNORE_DATE_FORMAT_FIELD_DESC": "Titles matching this date format won't be auto-translated. Can be useful for for daily notes. Default: YYYY-MM-DD.",
+        "IGNORE_DATE_FORMAT_FIELD_DESC": "Names matching this date format won't be auto-translated. Can be useful for for daily notes. Default: YYYY-MM-DD.",
         "IGNORE_REGEX_FIELD_NAME": "Custom regex to ignore",
-        "IGNORE_REGEX_FIELD_DESC": "Titles matching this custom regex won't be auto-translated.",
+        "IGNORE_REGEX_FIELD_DESC": "Names matching this custom regex won't be auto-translated.",
         "IGNORE_PATH_FIELD_NAME": "Custom path to ignore",
-        "IGNORE_PATH_FIELD_DESC": "Titles of notes in this folder and its subfolders won't be auto-translated.",
+        "IGNORE_PATH_FIELD_DESC": "Names of notes in this folder and its subfolders won't be auto-translated.",
         "IGNORE_PATH_FIELD_PLACEHOLDER": "e.g.: NASA/Apollo 15/LRV"
     }
 }
