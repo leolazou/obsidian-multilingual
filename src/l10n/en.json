@@ -2,7 +2,7 @@
     "notices": {
         "success": {
             "TRANSLATIONS_ADDED": "(You can edit these aliases in properties)",
-            "No_TRANSLATIONS_ADDED": "Name already available in all your languages."
+            "NO_TRANSLATIONS_ADDED": "Name already available in all your languages."
         },
 
         "errors" : {
@@ -36,12 +36,12 @@
         "AUTO_TRANSLATE_TOGGLE_DESC": "Whether to automatically translate the name every time you create or rename a note. (Translation is always available via command, ribbon or right-click menu.)",
         "H3_TRANSLATOR": "Translation service",
         "TRANSLATOR_SELECTOR_NAME": "Translation service",
-        "TRANSLATOR_SELECTOR_DESC": "Google Translate is widely used and supports more languages, DeepL is great and easier to set up.",
+        "TRANSLATOR_SELECTOR_DESC": "Google Translate supports more languages. DeepL is considered more accurate and natural-sounding, and is easier to set up.",
         "API_KEY_FIELD_NAME": "${translator} API key (mandatory)",
         "API_KEY_FIELD_DESC": "Paste your ${translator} API key here, this is mandatory for the plugin to work. (The API key is stored somewhere in the config files of your Obsidian vault.)",
         "H3_ADVANCED": "Advanced",
         "ADD_ORIGINAL_NAME_NAME": "Add original name to aliases",
-        "ADD_ORIGINAL_NAME_DESC": "This can make inserting links faster for languages with declensions (German, Russian, Latin (oh my), ...), but you may also find other use-cases.",
+        "ADD_ORIGINAL_NAME_DESC": "This can make inserting links faster for languages with declensions (German, Russian, Latin (oh my), ...), but you may also find other use cases.",
         "IGNORE_DATE_FORMAT_FIELD_NAME": "Date format to ignore",
         "IGNORE_DATE_FORMAT_FIELD_DESC": "Names matching this date format won't be auto-translated. Can be useful for for daily notes. Default: YYYY-MM-DD.",
         "IGNORE_REGEX_FIELD_NAME": "Custom regex to ignore",
