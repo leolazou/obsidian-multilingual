@@ -21,7 +21,6 @@ export interface MultilingualSettings {
     translationService: TranslationServiceName;
     apiKeys: {[key in TranslationServiceName]: string};
     // not controlled by user:
-    firstUse: boolean;
     setupComplete: boolean;
 }
 
@@ -38,7 +37,6 @@ export const DEFAULT_SETTINGS: MultilingualSettings = {
         'DeepL': ''
     },
     // not controlled by user:
-    firstUse: true,
     setupComplete: false
 }
 
