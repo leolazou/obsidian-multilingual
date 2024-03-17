@@ -2,7 +2,7 @@
     "notices": {
         "success": {
             "TRANSLATIONS_ADDED": "(You can edit these aliases in properties)",
-            "No_TRANSLATIONS_ADDED": "Note name already available in all your languages."
+            "No_TRANSLATIONS_ADDED": "Name already available in all your languages."
         },
 
         "errors" : {
@@ -10,15 +10,15 @@
         },
 
         "translation_errors" : {
-            "OFFLINE": "Note name not translated! ❌ You seem to be offline 🏕️",
-            "NO_LANGUAGES": "Note name not translated! ❌ Please choose at least one language in the plugin settings 🔧",
-            "INVALID_LANGUAGES": "Note name not translated! ❌ One of the languages you requested is not valid, please check in settings 😬",
-            "AUTH_NO_KEY": "Note name not translated! ❌ Please provide an API key in Settings 🔑",
-            "AUTH_BAD_KEY": "Note name not translated! ❌ Check your API key, it seems not valid 🔑",
-            "AUTH_PROBLEM": "Note name not translated! ❌ Authentication problem, check your API key 👾",
-            "FREE_LIMITS_REACHED": "Note name not translated! ❌ Free usage limits reached, please check you API key account 😱",
-            "SERVICE_UNAVAILABLE": "Note name not translated! ❌ Service unavailable, try again later 🕙",
-            "OTHER_ERROR": "Note name not translated! ❌ Some weird error during translation 🤯"
+            "OFFLINE": "Name not translated! ❌ You seem to be offline 🏕️",
+            "NO_LANGUAGES": "Name not translated! ❌ Please choose at least one language in the plugin settings 🔧",
+            "INVALID_LANGUAGES": "Name not translated! ❌ One of the languages you requested is not valid, please check in settings 😬",
+            "AUTH_NO_KEY": "Name not translated! ❌ Please provide an API key in Settings 🔑",
+            "AUTH_BAD_KEY": "Name not translated! ❌ Check your API key, it seems not valid 🔑",
+            "AUTH_PROBLEM": "Name not translated! ❌ Authentication problem, check your API key 👾",
+            "FREE_LIMITS_REACHED": "Name not translated! ❌ Free usage limits reached, please check you API key account 😱",
+            "SERVICE_UNAVAILABLE": "Name not translated! ❌ Service unavailable, try again later 🕙",
+            "OTHER_ERROR": "Name not translated! ❌ Some weird error during translation 🤯"
         }
     },
 
