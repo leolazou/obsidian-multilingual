@@ -24,7 +24,7 @@ Many users of Obsidian use more than one language in their everyday life, but th
 - 💡 The plugin leverages Obsidian aliases, so that all links remain functional even if the plugin uninstalled.
 
 **Limitations, as of now:**
-- 🤷‍♂️ Does not remove old aliases when a note is renamed (only adds new translations).
+- 🤷‍♂️ Does not remove old aliases when a note is renamed (only adds new translations). This is notably because in Obsidian changing note aliases (even manually) does not change the actual links in other notes.
 
 
 
