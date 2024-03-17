@@ -10,6 +10,12 @@
 Many users of Obsidian use more than one language in their everyday life, but their thoughts are all connected across languages. The goal is to simplify the amazing linking logic of Obsidian for multilingual users, by allowing to more easily link notes and ideas in the current note language. While Obsidian offers aliases to answer this need, writing them manually for every note you create is frustrating. Why bother, when a plugin can do it for you?
 
 
+<br>
+<p align="center">
+	<img width=70% src="https://github.com/leolazou/obsidian-multilingual/assets/22347352/67acc2b2-5dfb-4502-ad28-9cf744b98a19" alt="Obsidian Multilingual demo">
+</p>
+<br>
+
 
 ## Features 🪄
 - 👍 Translate notes' titles into desired languages. Translations are added to the aliases, which allows you to link your notes in all of the languages you use.
