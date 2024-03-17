@@ -20,29 +20,29 @@ export default class MultilingualPlugin extends Plugin {
 		// Adds a settings tab
 		this.addSettingTab(new MultilingualSettingTab(this.app, this));
 
-		// Automatically translates title when a note is created if the setting is enabled.
+		// Automatically translates name when a note is created if the setting is enabled.
 		this.app.workspace.onLayoutReady(() => {
 			this.registerEvent (
 				this.app.vault.on('create', (file: TFile) => {
 					if (this.settings.autoTranslate) {
-						this.autoTranslateTitle(file);
+						this.autoTranslateName(file);
 					}
 				})
 			)
 		})
 
-		// Automatically translates title on title update if the setting is enabled.
+		// Automatically translates name on rename if the setting is enabled.
 		this.registerEvent(
 			this.app.vault.on('rename', (file: TFile, oldPath: string) => {
 				if (this.settings.autoTranslate &&
 					!oldPath.includes(file.name)  // not when file is simply moved to a new folder
 				) {
-					this.autoTranslateTitle(file);
+					this.autoTranslateName(file);
 				}
 			})
 		)
 
-		// Action in title right click menu to translate of the title.
+		// Action in editor right click menu to translate of the note name.
 		this.registerEvent(
 			this.app.workspace.on('editor-menu', (menu: Menu, editor: Editor, view: MarkdownView) => {
 				if (view.file) {
@@ -52,31 +52,31 @@ export default class MultilingualPlugin extends Plugin {
 						.setTitle(this.strings.menus.EDITOR_MENU_ACTION)
 						.setIcon("languages") // icon from lucide.dev
 						.onClick(() => {
-							this.translateTitle(file);
+							this.translateName(file);
 						});
 					});
 				}
 			})
 		);
 
-		// Editor command that triggers translation of the title of the current file.
+		// Editor command that triggers translation of the name of the current note.
 		this.addCommand({
-			id: 'multilingual-editor-translate-title',
+			id: 'multilingual-editor-translate-name',
 			name: this.strings.menus.COMMAND_ACTION,
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				if (view.file) {
-					this.translateTitle(view.file)
+					this.translateName(view.file)
 				} else {
 					new Notice(this.strings.notices.errors.NOT_A_FILE)
 				}
 			},
 		});
 
-		// Ribbon icon that triggers translation of the title of the current file.
+		// Ribbon icon that triggers translation of the name of the current note.
 		this.addRibbonIcon('languages', this.strings.menus.RIBBON_ICON_ACTION, (evt: MouseEvent) => {
 			const view = this.app.workspace.getActiveViewOfType(MarkdownView);
             if (view && view.file) {
-				this.translateTitle(view.file);
+				this.translateName(view.file);
             } else {
 				// a notice would be too annoying
 			}
@@ -96,28 +96,28 @@ export default class MultilingualPlugin extends Plugin {
 
 	}
 
-	private isToBeAutoTranslated(title: string, path: string): boolean {
+	private isToBeAutoTranslated(name: string, path: string): boolean {
 		const matchesPathToIgnore:boolean = !!this.settings.ignorePath && path.startsWith(this.settings.ignorePath);
-		const isNumbersOnly:boolean = /^[0-9\.\,\'\+\-\_\&\@\%\~\$\(\) ]+$/.test(title);  // matches default date format YYYY-MM-DD among others
-		const isUntitled:boolean = (new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(title);  // "Untitled [N]" in English, "Sans titre [N]" in French, ...
-		const matchesDatesToIgnore:boolean = !!this.settings.ignoreDateFormat && moment(title, this.settings.ignoreDateFormat, true).isValid();
-		const matchesRegexToIgnore:boolean = !!this.settings.ignoreRegex && (new RegExp(this.settings.ignoreRegex)).test(title);
+		const isNumbersOnly:boolean = /^[0-9\.\,\'\+\-\_\&\@\%\~\$\(\) ]+$/.test(name);  // matches default date format YYYY-MM-DD among others
+		const isUntitled:boolean = (new RegExp(`^${untitledIn(this.locale)}(?:\\s\\d+)?$`)).test(name);  // "Untitled [N]" in English, "Sans titre [N]" in French, ...
+		const matchesDatesToIgnore:boolean = !!this.settings.ignoreDateFormat && moment(name, this.settings.ignoreDateFormat, true).isValid();
+		const matchesRegexToIgnore:boolean = !!this.settings.ignoreRegex && (new RegExp(this.settings.ignoreRegex)).test(name);
 		
 		return !(matchesPathToIgnore || isNumbersOnly || isUntitled || matchesDatesToIgnore || matchesRegexToIgnore); 
 	}
 
-	async autoTranslateTitle(file: TFile) {
+	async autoTranslateName(file: TFile) {
 		if (
 			this.isToBeAutoTranslated(file.basename, file.path) &&
 			this.settings.setupComplete
 		) {
-			this.translateTitle(file);
+			this.translateName(file);
 		}
 		// no auto-translation and unnecessary errors while the user hasn't yet set up the necessary (notably API keys).
 		// maybe show a warning once in a while in case of incomplete setup tho?
 	}
 
-	async translateTitle(file: TFile) {
+	async translateName(file: TFile) {
 		let preCheckError = this.translator.preCheckErrors(file.basename, this.settings.targetLanguages);
 		if (preCheckError) {
 			new Notice(this.strings.notices.translation_errors[preCheckError]);
@@ -147,16 +147,16 @@ export default class MultilingualPlugin extends Plugin {
 			.filter(([langCode]) => langCode !== translationsResult.detectedLanguage)
 			.map(([, variants]) => variants[0]); 
 		
-		this.addAliases(file, translationsToAdd, this.settings.addOriginalTitle);
+		this.addAliases(file, translationsToAdd, this.settings.addOriginalName);
     }
 
-	async addAliases(file: TFile, aliases: string[], includeTitle: boolean = false) {
+	async addAliases(file: TFile, aliases: string[], includeName: boolean = false) {
 		await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
 			if (typeof(frontmatter) == 'object'){
-				if (includeTitle) {
+				if (includeName) {
 					aliases.push(file.basename);
 				} else {
-					aliases.remove(file.basename);  // not to duplicate the title in the aliases, if any tranlsation(s) are identic to the title
+					aliases.remove(file.basename);  // not to duplicate the name in the aliases, if any tranlsation(s) are identic to the note name
 				}
 				const currentAliases = frontmatter.aliases || []; // gets current aliases or creates the new list
 				const newAliases = [...new Set(currentAliases.concat(aliases))]; // adds new aliases and removes potential duplicates 
