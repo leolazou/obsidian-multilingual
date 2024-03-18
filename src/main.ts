@@ -169,12 +169,7 @@ export default class MultilingualPlugin extends Plugin {
 		this.locale = moment.locale();  // xx-xx format (ex: fr, zh-cn)
 		
 		this.strings = defaultStrings;
-		try {
-			this.strings = require(`./l10n/${this.locale}.json`);
-		} catch (error) {
-			// English kept by default if the display language not available for the plugin
-			console.log(`Multilingual plugin isn't yet translated to ${this.locale} (funny, right?).  English selected by default as display language for the plugin. Unless the error is different: ` + error)
-		}
+		// For now, only English available as UI language for the Multilingual plugin UI. (I know, right?)
 	}
 
 	// instanciates a Translator, based on the settings
