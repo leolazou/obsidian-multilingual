@@ -29,8 +29,8 @@ Many users of Obsidian use more than one language in their everyday life, but th
 
 
 ## Usage ✍️
-1. Install & enable Obsidian Multilingual directly from Obsidian: Settings > Community plugins > Browse
-2. Go to the plugin settings in Settings > Multilingual
+1. Install & enable Obsidian Multilingual directly from Obsidian: Settings → Community plugins → Browse
+2. Go to the plugin settings in Settings → Multilingual
 3. List the languages you use for writing in Obsidian
 4. create an API key for the translation service of your choice and paste it in the specified field. How-to links below.
 5. Translate note name with the ribbon icon, command or riight-click menu.
