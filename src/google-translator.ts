@@ -1,6 +1,6 @@
 import { RequestUrlResponse, requestUrl } from "obsidian";
 import { Translator, TranslationsResult, ErrorType } from "./translator";
-import { decodeHtmlEntities } from "./helpers";
+import { decodeHtmlString } from "./helpers";
 
 const GOOGLE_CLOUD_TRANSLATION_URL = 'https://translation.googleapis.com/language/translate/v2'
 
@@ -36,7 +36,7 @@ export class GoogleTranslator extends Translator {
             }
 
             result.detectedLanguage ??= translations[0].detectedSourceLanguage;
-            (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.translatedText));
+            (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlString(variant.translatedText));
         }
 
         return result;

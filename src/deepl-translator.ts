@@ -1,6 +1,6 @@
 import { RequestUrlResponse, requestUrl } from "obsidian";
 import { Translator, TranslationsResult, ErrorType } from "./translator";
-import { decodeHtmlEntities } from "./helpers";
+import { decodeHtmlString } from "./helpers";
 
 const DEEPL_API_URL = 'https://api-free.deepl.com/v2/translate';
 
@@ -36,7 +36,7 @@ export class DeepLTranslator extends Translator {
             }
 
             result.detectedLanguage ??= translations[0].detected_source_language.toLowerCase();
-            (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlEntities(variant.text));
+            (result.translations ??= {})[targetLanguage] = translations.map((variant: any) => decodeHtmlString(variant.text));
         }
 
         return result;

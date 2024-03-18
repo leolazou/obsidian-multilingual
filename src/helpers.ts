@@ -1,9 +1,9 @@
 // helper functions
 
-export function decodeHtmlEntities(text: string): string {
-    const textarea = document.createElement('textarea');
-        textarea.innerHTML = text;
-        return textarea.value;
+export function decodeHtmlString(text: string): string {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    return doc.body.textContent || '';
 }
 
 
