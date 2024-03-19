@@ -53,8 +53,6 @@ export class MultilingualSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_GENERAL})
-		
 		new Setting(containerEl)
             .setName(this.plugin.strings.settings.TARGET_LANGS_FIELD_NAME)
             .setDesc(createFragment((desc) => {

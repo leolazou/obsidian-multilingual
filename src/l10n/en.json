@@ -29,7 +29,6 @@
     },
 
     "settings": {
-        "H3_GENERAL": "General",
         "TARGET_LANGS_FIELD_NAME": "Your languages",
         "TARGET_LANGS_FIELD_DESC": "Note names will be translated to these languages and added to aliases, so that you can link your notes in all your languages. (e.g.: \"fr, it\")",
         "AUTO_TRANSLATE_TOGGLE_NAME": "Auto translate",
