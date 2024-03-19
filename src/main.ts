@@ -61,7 +61,7 @@ export default class MultilingualPlugin extends Plugin {
 
 		// Editor command that triggers translation of the name of the current note.
 		this.addCommand({
-			id: 'multilingual-editor-translate-name',
+			id: 'translate-name',
 			name: this.strings.menus.COMMAND_ACTION,
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				if (view.file) {

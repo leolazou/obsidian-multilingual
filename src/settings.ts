@@ -102,7 +102,7 @@ export class MultilingualSettingTab extends PluginSettingTab {
         let apiKeySetting = new Setting(containerEl);
         this.updateApiKeySetting(apiKeySetting);
 
-        containerEl.createEl('h3', { 'text': this.plugin.strings.settings.H3_ADVANCED})
+        new Setting(containerEl).setName(this.plugin.strings.settings.H3_ADVANCED).setHeading()
 
         new Setting(containerEl)
             .setName(this.plugin.strings.settings.ADD_ORIGINAL_NAME_NAME)
